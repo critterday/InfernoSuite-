@@ -109,7 +109,7 @@ struct SUPPLY : Module {
 		configParam(C6P3_PARAM, -10.f, 10.f, 0.f, "");
 		configParam(C7P1_PARAM, -10.f, 10.f, 0.f, "");
 		configParam(C7P3_PARAM, -10.f, 10.f, 0.f, "");
-		configParam(C7B_PARAM, 0.f, 10.f, 0.f, "");
+		configParam(C7B_PARAM, 0.f, 1.f, 0.f, "");
 		configParam(C7P4_PARAM, -10.f, 10.f, 0.f, "");
 		configParam(C7P2_PARAM, -10.f, 10.f, 0.f, "");
 		configParam(C8P3_PARAM, -10.f, 10.f, 0.f, "");
@@ -131,7 +131,186 @@ struct SUPPLY : Module {
 		configOutput(OUT2_OUTPUT, "");
 	}
 
+	// output selector variable
+	float channelout = 0;
+
+
 	void process(const ProcessArgs& args) override {
+
+		// select channel
+		if(params[C1B_PARAM].getValue() == 1 || inputs[GATE1_INPUT].getVoltage() > 5.f){
+			channelout = 1;
+		}
+		else if(params[C2B_PARAM].getValue() == 1 || inputs[GATE2_INPUT].getVoltage() > 5.f){
+			channelout = 2;
+		}
+		else if(params[C3B_PARAM].getValue() == 1 || inputs[GATE3_INPUT].getVoltage() > 5.f){
+			channelout = 3;
+		}
+		else if(params[C4B_PARAM].getValue() == 1 || inputs[GATE4_INPUT].getVoltage() > 5.f){
+			channelout = 4;
+		}
+		else if(params[C5B_PARAM].getValue() == 1 || inputs[GATE5_INPUT].getVoltage() > 5.f){
+			channelout = 5;
+		}
+		else if(params[C6B_PARAM].getValue() == 1 || inputs[GATE6_INPUT].getVoltage() > 5.f){
+			channelout = 6;
+		}
+		else if(params[C7B_PARAM].getValue() == 1 || inputs[GATE7_INPUT].getVoltage() > 5.f){
+			channelout = 7;
+		}
+		else if(params[C8B_PARAM].getValue() == 1 || inputs[GATE8_INPUT].getVoltage() > 5.f){
+			channelout = 8;
+		}
+		
+		// set channel
+		if(channelout == 1){
+			// lights
+			
+			lights[LIGHT1_LIGHT].setBrightness(1.f);
+			lights[LIGHT2_LIGHT].setBrightness(0.f);
+			lights[LIGHT3_LIGHT].setBrightness(0.f);
+			lights[LIGHT4_LIGHT].setBrightness(0.f);
+			lights[LIGHT5_LIGHT].setBrightness(0.f);
+			lights[LIGHT6_LIGHT].setBrightness(0.f);
+			lights[LIGHT7_LIGHT].setBrightness(0.f);
+			lights[LIGHT8_LIGHT].setBrightness(0.f);
+
+			// voltages
+			outputs[OUT1_OUTPUT].setVoltage(params[C1P1_PARAM].getValue());
+			outputs[OUT2_OUTPUT].setVoltage(params[C1P2_PARAM].getValue());
+			outputs[OUT3_OUTPUT].setVoltage(params[C1P3_PARAM].getValue());
+			outputs[OUT4_OUTPUT].setVoltage(params[C1P4_PARAM].getValue());
+
+
+		} else if(channelout == 2){
+			// lights
+			
+			lights[LIGHT1_LIGHT].setBrightness(0.f);
+			lights[LIGHT2_LIGHT].setBrightness(1.f);
+			lights[LIGHT3_LIGHT].setBrightness(0.f);
+			lights[LIGHT4_LIGHT].setBrightness(0.f);
+			lights[LIGHT5_LIGHT].setBrightness(0.f);
+			lights[LIGHT6_LIGHT].setBrightness(0.f);
+			lights[LIGHT7_LIGHT].setBrightness(0.f);
+			lights[LIGHT8_LIGHT].setBrightness(0.f);
+			
+			// voltages
+			outputs[OUT1_OUTPUT].setVoltage(params[C2P1_PARAM].getValue());
+			outputs[OUT2_OUTPUT].setVoltage(params[C2P2_PARAM].getValue());
+			outputs[OUT3_OUTPUT].setVoltage(params[C2P3_PARAM].getValue());
+			outputs[OUT4_OUTPUT].setVoltage(params[C2P4_PARAM].getValue());
+			
+		} else if(channelout == 3){
+			// lights
+			
+			lights[LIGHT1_LIGHT].setBrightness(0.f);
+			lights[LIGHT2_LIGHT].setBrightness(0.f);
+			lights[LIGHT3_LIGHT].setBrightness(1.f);
+			lights[LIGHT4_LIGHT].setBrightness(0.f);
+			lights[LIGHT5_LIGHT].setBrightness(0.f);
+			lights[LIGHT6_LIGHT].setBrightness(0.f);
+			lights[LIGHT7_LIGHT].setBrightness(0.f);
+			lights[LIGHT8_LIGHT].setBrightness(0.f);
+			
+			// voltages
+			outputs[OUT1_OUTPUT].setVoltage(params[C3P1_PARAM].getValue());
+			outputs[OUT2_OUTPUT].setVoltage(params[C3P2_PARAM].getValue());
+			outputs[OUT3_OUTPUT].setVoltage(params[C3P3_PARAM].getValue());
+			outputs[OUT4_OUTPUT].setVoltage(params[C3P4_PARAM].getValue());
+			
+		} else if(channelout == 4){
+			// lights
+			
+			lights[LIGHT1_LIGHT].setBrightness(0.f);
+			lights[LIGHT2_LIGHT].setBrightness(0.f);
+			lights[LIGHT3_LIGHT].setBrightness(0.f);
+			lights[LIGHT4_LIGHT].setBrightness(1.f);
+			lights[LIGHT5_LIGHT].setBrightness(0.f);
+			lights[LIGHT6_LIGHT].setBrightness(0.f);
+			lights[LIGHT7_LIGHT].setBrightness(0.f);
+			lights[LIGHT8_LIGHT].setBrightness(0.f);
+
+			// voltages
+			outputs[OUT1_OUTPUT].setVoltage(params[C4P1_PARAM].getValue());
+			outputs[OUT2_OUTPUT].setVoltage(params[C4P2_PARAM].getValue());
+			outputs[OUT3_OUTPUT].setVoltage(params[C4P3_PARAM].getValue());
+			outputs[OUT4_OUTPUT].setVoltage(params[C4P4_PARAM].getValue());
+			
+		} else if(channelout == 5){
+			// lights
+			
+			lights[LIGHT1_LIGHT].setBrightness(0.f);
+			lights[LIGHT2_LIGHT].setBrightness(0.f);
+			lights[LIGHT3_LIGHT].setBrightness(0.f);
+			lights[LIGHT4_LIGHT].setBrightness(0.f);
+			lights[LIGHT5_LIGHT].setBrightness(1.f);
+			lights[LIGHT6_LIGHT].setBrightness(0.f);
+			lights[LIGHT7_LIGHT].setBrightness(0.f);
+			lights[LIGHT8_LIGHT].setBrightness(0.f);
+
+			// voltages
+			outputs[OUT1_OUTPUT].setVoltage(params[C5P1_PARAM].getValue());
+			outputs[OUT2_OUTPUT].setVoltage(params[C5P2_PARAM].getValue());
+			outputs[OUT3_OUTPUT].setVoltage(params[C5P3_PARAM].getValue());
+			outputs[OUT4_OUTPUT].setVoltage(params[C5P4_PARAM].getValue());
+			
+		} else if(channelout == 6){
+			// lights
+			
+			lights[LIGHT1_LIGHT].setBrightness(0.f);
+			lights[LIGHT2_LIGHT].setBrightness(0.f);
+			lights[LIGHT3_LIGHT].setBrightness(0.f);
+			lights[LIGHT4_LIGHT].setBrightness(0.f);
+			lights[LIGHT5_LIGHT].setBrightness(0.f);
+			lights[LIGHT6_LIGHT].setBrightness(1.f);
+			lights[LIGHT7_LIGHT].setBrightness(0.f);
+			lights[LIGHT8_LIGHT].setBrightness(0.f);
+
+			// voltages
+			outputs[OUT1_OUTPUT].setVoltage(params[C6P1_PARAM].getValue());
+			outputs[OUT2_OUTPUT].setVoltage(params[C6P2_PARAM].getValue());
+			outputs[OUT3_OUTPUT].setVoltage(params[C6P3_PARAM].getValue());
+			outputs[OUT4_OUTPUT].setVoltage(params[C6P4_PARAM].getValue());
+			
+		} else if(channelout == 7){
+			// lights
+			
+			lights[LIGHT1_LIGHT].setBrightness(0.f);
+			lights[LIGHT2_LIGHT].setBrightness(0.f);
+			lights[LIGHT3_LIGHT].setBrightness(0.f);
+			lights[LIGHT4_LIGHT].setBrightness(0.f);
+			lights[LIGHT5_LIGHT].setBrightness(0.f);
+			lights[LIGHT6_LIGHT].setBrightness(0.f);
+			lights[LIGHT7_LIGHT].setBrightness(1.f);
+			lights[LIGHT8_LIGHT].setBrightness(0.f);
+
+			// voltages
+			outputs[OUT1_OUTPUT].setVoltage(params[C7P1_PARAM].getValue());
+			outputs[OUT2_OUTPUT].setVoltage(params[C7P2_PARAM].getValue());
+			outputs[OUT3_OUTPUT].setVoltage(params[C7P3_PARAM].getValue());
+			outputs[OUT4_OUTPUT].setVoltage(params[C7P4_PARAM].getValue());
+			
+		} else if(channelout == 8){
+			// lights
+			
+			lights[LIGHT1_LIGHT].setBrightness(0.f);
+			lights[LIGHT2_LIGHT].setBrightness(0.f);
+			lights[LIGHT3_LIGHT].setBrightness(0.f);
+			lights[LIGHT4_LIGHT].setBrightness(0.f);
+			lights[LIGHT5_LIGHT].setBrightness(0.f);
+			lights[LIGHT6_LIGHT].setBrightness(0.f);
+			lights[LIGHT7_LIGHT].setBrightness(0.f);
+			lights[LIGHT8_LIGHT].setBrightness(1.f);
+
+			// voltages
+			outputs[OUT1_OUTPUT].setVoltage(params[C8P1_PARAM].getValue());
+			outputs[OUT2_OUTPUT].setVoltage(params[C8P2_PARAM].getValue());
+			outputs[OUT3_OUTPUT].setVoltage(params[C8P3_PARAM].getValue());
+			outputs[OUT4_OUTPUT].setVoltage(params[C8P4_PARAM].getValue());
+			
+		}
+
 	}
 };
 
@@ -236,14 +415,14 @@ struct SUPPLYWidget : ModuleWidget {
 
 		// indicator lights
 
-		addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(23.285, 28.5)), module, SUPPLY::LIGHT1_LIGHT));
-		addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(23.285, 40)), module, SUPPLY::LIGHT2_LIGHT));
-		addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(23.285, 51.5)), module, SUPPLY::LIGHT3_LIGHT));
-		addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(23.285, 63)), module, SUPPLY::LIGHT4_LIGHT));
-		addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(23.285, 74.5)), module, SUPPLY::LIGHT5_LIGHT));
-		addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(23.285, 86)), module, SUPPLY::LIGHT6_LIGHT));
-		addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(23.285, 97.5)), module, SUPPLY::LIGHT7_LIGHT));
-		addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(23.285, 109)), module, SUPPLY::LIGHT8_LIGHT));
+		addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(23.285, 28.5)), module, SUPPLY::LIGHT1_LIGHT));
+		addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(23.285, 40)), module, SUPPLY::LIGHT2_LIGHT));
+		addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(23.285, 51.5)), module, SUPPLY::LIGHT3_LIGHT));
+		addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(23.285, 63)), module, SUPPLY::LIGHT4_LIGHT));
+		addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(23.285, 74.5)), module, SUPPLY::LIGHT5_LIGHT));
+		addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(23.285, 86)), module, SUPPLY::LIGHT6_LIGHT));
+		addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(23.285, 97.5)), module, SUPPLY::LIGHT7_LIGHT));
+		addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(23.285, 109)), module, SUPPLY::LIGHT8_LIGHT));
 	}
 };
 
