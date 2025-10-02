@@ -1,0 +1,33 @@
+{
+  "slug": "InfernoSuite",
+  "name": "Inferno Suite",
+  "version": "2.0.0",
+  "license": "proprietary",
+  "brand": "Inferno Suite",
+  "author": "",
+  "authorEmail": "",
+  "authorUrl": "",
+  "pluginUrl": "",
+  "manualUrl": "",
+  "sourceUrl": "",
+  "donateUrl": "",
+  "changelogUrl": "",
+  "modules": [
+    {
+      "slug": "ATTOFF",
+      "name": "ATTOFF",
+      "description": "8-channel attenuversion/offset module",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "SUPPLY",
+      "name": "SUPPLY",
+      "description": "gate-selectable quad voltage source",
+      "tags": [
+        "Utility"
+      ]
+    }
+  ]
+}
