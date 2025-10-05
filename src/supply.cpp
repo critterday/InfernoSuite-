@@ -54,6 +54,7 @@ struct SUPPLY : Module {
 		GATE6_INPUT,
 		GATE7_INPUT,
 		GATE8_INPUT,
+		SYNC_INPUT,
 		INPUTS_LEN
 	};
 	enum OutputId {
@@ -61,6 +62,7 @@ struct SUPPLY : Module {
 		OUT4_OUTPUT,
 		OUT3_OUTPUT,
 		OUT2_OUTPUT,
+		SYNC_OUTPUT,
 		OUTPUTS_LEN
 	};
 	enum LightId {
@@ -72,6 +74,7 @@ struct SUPPLY : Module {
 		LIGHT6_LIGHT,
 		LIGHT7_LIGHT,
 		LIGHT8_LIGHT,
+		SYNC_LIGHT,
 		LIGHTS_LEN
 	};
 
@@ -125,43 +128,93 @@ struct SUPPLY : Module {
 		configInput(GATE6_INPUT, "");
 		configInput(GATE7_INPUT, "");
 		configInput(GATE8_INPUT, "");
+		configInput(SYNC_INPUT, "");
 		configOutput(OUT1_OUTPUT, "");
 		configOutput(OUT4_OUTPUT, "");
 		configOutput(OUT3_OUTPUT, "");
 		configOutput(OUT2_OUTPUT, "");
+		configOutput(SYNC_OUTPUT, "");
 	}
 
-	// output selector variable
+	// output selector and sync variables
 	float channelout = 0;
 
 
 	void process(const ProcessArgs& args) override {
 
 		// select channel
-		if(params[C1B_PARAM].getValue() == 1 || inputs[GATE1_INPUT].getVoltage() > 5.f){
+
+		if(inputs[SYNC_INPUT].isConnected() == true){
+			lights[SYNC_LIGHT].setBrightness(1.f);
+
+			// check sync input for voltage
+
+			if(inputs[SYNC_INPUT].getVoltage() == 1.f){
+				channelout = 1;
+				outputs[SYNC_OUTPUT].setVoltage(1.f);
+			} else if(inputs[SYNC_INPUT].getVoltage() == 2.f){
+				channelout = 2;
+				outputs[SYNC_OUTPUT].setVoltage(2.f);
+			} else if(inputs[SYNC_INPUT].getVoltage() == 3.f){
+				channelout = 3;
+				outputs[SYNC_OUTPUT].setVoltage(3.f);
+			} else if(inputs[SYNC_INPUT].getVoltage() == 4.f){
+				channelout = 4;
+				outputs[SYNC_OUTPUT].setVoltage(4.f);
+			} else if(inputs[SYNC_INPUT].getVoltage() == 5.f){
+				channelout = 5;
+				outputs[SYNC_OUTPUT].setVoltage(5.f);
+			} else if(inputs[SYNC_INPUT].getVoltage() == 6.f){
+				channelout = 6;
+				outputs[SYNC_OUTPUT].setVoltage(6.f);
+			} else if(inputs[SYNC_INPUT].getVoltage() == 7.f){
+				channelout = 7;
+				outputs[SYNC_OUTPUT].setVoltage(7.f);
+			} else if(inputs[SYNC_INPUT].getVoltage() == 8.f){
+				channelout = 8;
+				outputs[SYNC_OUTPUT].setVoltage(8.f);
+			}
+
+		} else {
+			lights[SYNC_LIGHT].setBrightness(0.f);
+
+			// select via gate and button if not synced
+
+			if(params[C1B_PARAM].getValue() == 1 || inputs[GATE1_INPUT].getVoltage() > 5.f){
 			channelout = 1;
-		}
-		else if(params[C2B_PARAM].getValue() == 1 || inputs[GATE2_INPUT].getVoltage() > 5.f){
+			outputs[SYNC_OUTPUT].setVoltage(1.f);
+			}
+			else if(params[C2B_PARAM].getValue() == 1 || inputs[GATE2_INPUT].getVoltage() > 5.f){
 			channelout = 2;
-		}
-		else if(params[C3B_PARAM].getValue() == 1 || inputs[GATE3_INPUT].getVoltage() > 5.f){
+			outputs[SYNC_OUTPUT].setVoltage(2.f);
+			}
+			else if(params[C3B_PARAM].getValue() == 1 || inputs[GATE3_INPUT].getVoltage() > 5.f){
 			channelout = 3;
-		}
-		else if(params[C4B_PARAM].getValue() == 1 || inputs[GATE4_INPUT].getVoltage() > 5.f){
+			outputs[SYNC_OUTPUT].setVoltage(3.f);
+			}
+			else if(params[C4B_PARAM].getValue() == 1 || inputs[GATE4_INPUT].getVoltage() > 5.f){
 			channelout = 4;
-		}
-		else if(params[C5B_PARAM].getValue() == 1 || inputs[GATE5_INPUT].getVoltage() > 5.f){
+			outputs[SYNC_OUTPUT].setVoltage(4.f);
+			}
+			else if(params[C5B_PARAM].getValue() == 1 || inputs[GATE5_INPUT].getVoltage() > 5.f){
 			channelout = 5;
-		}
-		else if(params[C6B_PARAM].getValue() == 1 || inputs[GATE6_INPUT].getVoltage() > 5.f){
+			outputs[SYNC_OUTPUT].setVoltage(5.f);
+			}
+			else if(params[C6B_PARAM].getValue() == 1 || inputs[GATE6_INPUT].getVoltage() > 5.f){
 			channelout = 6;
-		}
-		else if(params[C7B_PARAM].getValue() == 1 || inputs[GATE7_INPUT].getVoltage() > 5.f){
+			outputs[SYNC_OUTPUT].setVoltage(6.f);
+			}
+			else if(params[C7B_PARAM].getValue() == 1 || inputs[GATE7_INPUT].getVoltage() > 5.f){
 			channelout = 7;
-		}
-		else if(params[C8B_PARAM].getValue() == 1 || inputs[GATE8_INPUT].getVoltage() > 5.f){
+			outputs[SYNC_OUTPUT].setVoltage(7.f);
+			}
+			else if(params[C8B_PARAM].getValue() == 1 || inputs[GATE8_INPUT].getVoltage() > 5.f){
 			channelout = 8;
+			outputs[SYNC_OUTPUT].setVoltage(8.f);
+			}
 		}
+
+	
 		
 		// set channel
 		if(channelout == 1){
@@ -423,6 +476,12 @@ struct SUPPLYWidget : ModuleWidget {
 		addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(23.285, 86)), module, SUPPLY::LIGHT6_LIGHT));
 		addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(23.285, 97.5)), module, SUPPLY::LIGHT7_LIGHT));
 		addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(23.285, 109)), module, SUPPLY::LIGHT8_LIGHT));
+
+		// sync
+
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(6.75, 12.5)), module, SUPPLY::SYNC_INPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(64.37, 12.5)), module, SUPPLY::SYNC_OUTPUT));
+		addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(15.75, 12.5)), module, SUPPLY::SYNC_LIGHT));
 	}
 };
 
