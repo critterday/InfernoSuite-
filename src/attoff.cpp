@@ -139,45 +139,53 @@ struct ATTOFFWidget : ModuleWidget {
 		setModule(module);
 		setPanel(createPanel(asset::plugin(pluginInstance, "res/ATTOFF.svg")));
 
+		//screws
+
 		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
 		addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 		addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(40, 15)), module, ATTOFF::OFF1_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(19, 15)), module, ATTOFF::AFF1_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(40, 28.5)), module, ATTOFF::OFF2_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(19, 28.5)), module, ATTOFF::AFF2_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(40, 42)), module, ATTOFF::OFF3_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(19, 42)), module, ATTOFF::AFF3_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(40, 55.5)), module, ATTOFF::OFF4_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(19, 55.5)), module, ATTOFF::AFF4_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(40, 69)), module, ATTOFF::OFF5_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(19, 69)), module, ATTOFF::AFF5_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(40, 82.5)), module, ATTOFF::OFF6_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(19, 82.5)), module, ATTOFF::AFF6_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(40, 96)), module, ATTOFF::OFF7_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(19, 96)), module, ATTOFF::AFF7_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(40, 110)), module, ATTOFF::OFF8_PARAM));
-		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(19, 110)), module, ATTOFF::AFF8_PARAM));
+		// knobs
 
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.75, 15)), module, ATTOFF::IN1_INPUT));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.75, 28.5)), module, ATTOFF::IN2_INPUT));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.75, 42)), module, ATTOFF::IN3_INPUT));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.75, 55.5)), module, ATTOFF::IN4_INPUT));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.75, 69)), module, ATTOFF::IN5_INPUT));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.75, 82.5)), module, ATTOFF::IN6_INPUT));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.75, 96)), module, ATTOFF::IN7_INPUT));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.75, 110)), module, ATTOFF::IN8_INPUT));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(40, 28.5)), module, ATTOFF::OFF1_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(19, 28.5)), module, ATTOFF::AFF1_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(40, 40)), module, ATTOFF::OFF2_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(19, 40)), module, ATTOFF::AFF2_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(40, 51.5)), module, ATTOFF::OFF3_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(19, 51.5)), module, ATTOFF::AFF3_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(40, 63)), module, ATTOFF::OFF4_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(19, 63)), module, ATTOFF::AFF4_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(40, 74.5)), module, ATTOFF::OFF5_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(19, 74.5)), module, ATTOFF::AFF5_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(40, 86)), module, ATTOFF::OFF6_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(19, 86)), module, ATTOFF::AFF6_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(40, 97.5)), module, ATTOFF::OFF7_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(19, 97.5)), module, ATTOFF::AFF7_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(40, 109)), module, ATTOFF::OFF8_PARAM));
+		addParam(createParamCentered<RoundBlackKnob>(mm2px(Vec(19, 109)), module, ATTOFF::AFF8_PARAM));
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(55.25, 15)), module, ATTOFF::OUT1_OUTPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(55.25, 28.5)), module, ATTOFF::OUT2_OUTPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(55.25, 42)), module, ATTOFF::OUT3_OUTPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(55.25, 55.5)), module, ATTOFF::OUT4_OUTPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(55.25, 69)), module, ATTOFF::OUT5_OUTPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(55.25, 82.5)), module, ATTOFF::OUT6_OUTPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(55.25, 96)), module, ATTOFF::OUT7_OUTPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(55.25, 110)), module, ATTOFF::OUT8_OUTPUT));
+		// inputs
+
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.75, 28.5)), module, ATTOFF::IN1_INPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.75, 40)), module, ATTOFF::IN2_INPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.75, 51.5)), module, ATTOFF::IN3_INPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.75, 63)), module, ATTOFF::IN4_INPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.75, 74.5)), module, ATTOFF::IN5_INPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.75, 86)), module, ATTOFF::IN6_INPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.75, 97.5)), module, ATTOFF::IN7_INPUT));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.75, 109)), module, ATTOFF::IN8_INPUT));
+
+		// outputs
+
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(55.25, 28.5)), module, ATTOFF::OUT1_OUTPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(55.25, 40)), module, ATTOFF::OUT2_OUTPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(55.25, 51.5)), module, ATTOFF::OUT3_OUTPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(55.25, 63)), module, ATTOFF::OUT4_OUTPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(55.25, 74.5)), module, ATTOFF::OUT5_OUTPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(55.25, 86)), module, ATTOFF::OUT6_OUTPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(55.25, 97.5)), module, ATTOFF::OUT7_OUTPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(55.25, 109)), module, ATTOFF::OUT8_OUTPUT));
 	}
 };
 

@@ -136,8 +136,9 @@ struct SUPPLY : Module {
 		configOutput(SYNC_OUTPUT, "");
 	}
 
-	// output selector and sync variables
+	// output selector and sync variables, broken sync tolerance
 	float channelout = 0;
+	// float tol = 0.01;
 
 
 	void process(const ProcessArgs& args) override {
