@@ -28,6 +28,14 @@
       "tags": [
         "Utility"
       ]
+    },
+    {
+      "slug": "FORK",
+      "name": "FORK",
+      "description": "bitimbral keyboard splitter",
+      "tags": [
+        "Utility"
+      ]
     }
   ]
 }
