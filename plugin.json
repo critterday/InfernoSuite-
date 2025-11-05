@@ -36,6 +36,14 @@
       "tags": [
         "Utility"
       ]
+    },
+    {
+      "slug": "ORG-EX",
+      "name": "ORG-EX",
+      "description": "expanded arabic org' style quartertone retuner",
+      "tags": [
+        "Utility"
+      ]
     }
   ]
 }
