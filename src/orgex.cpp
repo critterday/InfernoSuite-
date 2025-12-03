@@ -1,5 +1,6 @@
 #include "plugin.hpp"
-#include <unordered_map>
+#include <map>
+#include <cmath>
 
 
 struct ORG_EX : Module {
@@ -133,19 +134,19 @@ struct ORG_EX : Module {
 	}
 
 	
-	// SEE IF MOVING THESE AROUND FIXES INITIALIZE FUNCTION
-	int cpitch = 0;
-	int dpitch = 0;
-	int epitch = 0;
-	int fpitch = 0;
-	int gpitch = 0;
-	int apitch = 0;
-	int bpitch = 0;
-	int cspitch = 0;
-	int efpitch = 0;
-	int fspitch = 0;
-	int afpitch = 0;
-	int bfpitch = 0;
+	// SEE IF MOVING THESE AROUND FIXES INITIALIZE FUNCTION (nvm i think i got it) <- no i fuckin didnt lmao
+	float cpitch = 0;
+	float dpitch = 0;
+	float epitch = 0;
+	float fpitch = 0;
+	float gpitch = 0;
+	float apitch = 0;
+	float bpitch = 0;
+	float cspitch = 0;
+	float efpitch = 0;
+	float fspitch = 0;
+	float afpitch = 0;
+	float bfpitch = 0;
 
 	void process(const ProcessArgs& args) override {
 
@@ -186,6 +187,7 @@ struct ORG_EX : Module {
 		} else if (params[fBlue].getValue() == 1){
 			fpitch = 1;
 		}
+
 		//g
 		if(params[gWhite].getValue() == 1){
 			gpitch = 0;
@@ -203,6 +205,7 @@ struct ORG_EX : Module {
 		} else if (params[aBlue].getValue() == 1){
 			apitch = 1;
 		}
+
 		//b
 		if(params[bWhite].getValue() == 1){
 			bpitch = 0;
@@ -431,7 +434,71 @@ struct ORG_EX : Module {
 			lights[bfBlue].setBrightness(0.f);
 		}
 
+		// determine voltage
+		int channelcount = std::max(1, inputs[input].getChannels());
+		outputs[output].setChannels(channelcount);
 
+		for (int c = 0; c < channelcount; c++){
+			
+			//get input voltage on channel and find determinant
+			float voltsin = inputs[input].getPolyVoltage(c);
+			float vdeterm = voltsin - floor(voltsin);
+			//correct for rounding errors
+			vdeterm *= 1000;
+			vdeterm = std::round(vdeterm); // <- for possible precision issues idk
+
+			//determinant storage map 
+			std::map<float, float> pcs;
+			pcs[0.f] = 0.f;
+			pcs[83.f] = 1.f;
+			pcs[167.f] = 2.f;
+			pcs[250.f] = 3.f;
+			pcs[333.f] = 4.f;
+			pcs[417.f] = 5.f;
+			pcs[500.f] = 6.f;
+			pcs[583.f] = 7.f;
+			pcs[667.f] = 8.f;
+			pcs[750.f] = 9.f;
+			pcs[833.f] = 10.f;
+			pcs[917.f] = 11.f;
+
+			float pitchclass = pcs[vdeterm]; // <- USE QUANTIZER BEFORE INPUT: i need to find a way to do this without [] operator, as it is now any values that aren't 12-TET will default to C
+
+			//look up and bend pitches
+
+			float tempVout = 0;
+			if(pitchclass == 0.f){
+				tempVout = voltsin + cpitch/24;
+			} else if(pitchclass == 1.f){
+				tempVout = voltsin + cspitch/24;
+			} else if(pitchclass == 2.f){
+				tempVout = voltsin + dpitch/24;
+			} else if(pitchclass == 3.f){
+				tempVout = voltsin + efpitch/24;
+			} else if(pitchclass == 4.f){
+				tempVout = voltsin + epitch/24;
+			} else if(pitchclass == 5.f){
+				tempVout = voltsin + fpitch/24;
+			} else if(pitchclass == 6.f){
+				tempVout = voltsin + fspitch/24;
+			} else if(pitchclass == 7.f){
+				tempVout = voltsin + gpitch/24;
+			} else if(pitchclass == 8.f){
+				tempVout = voltsin + afpitch/24;
+			} else if(pitchclass == 9.f){
+				tempVout = voltsin + apitch/24;
+			} else if(pitchclass == 10.f){
+				tempVout = voltsin + bfpitch/24;
+			} else if(pitchclass == 11.f){
+				tempVout = voltsin + bpitch/24;
+			} else {
+				tempVout = voltsin;
+			}
+
+			outputs[output].setVoltage(tempVout, c);
+
+		}
+		
 	}
 };
 

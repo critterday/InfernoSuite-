@@ -137,7 +137,7 @@ struct SUPPLY : Module {
 	}
 
 	// output selector and sync variables, broken sync tolerance
-	float channelout = 0;
+	float channelout = 1;
 	// float tol = 0.01;
 
 

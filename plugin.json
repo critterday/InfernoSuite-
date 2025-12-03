@@ -44,6 +44,30 @@
       "tags": [
         "Utility"
       ]
+    },
+    {
+      "slug": "DEPOT",
+      "name": "DEPOT",
+      "description": "Single voltage source",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "GATESYNC",
+      "name": "GATESYNC",
+      "description": "gate to sync converter",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "miniSUPPLY",
+      "name": "miniSUPPLY",
+      "description": "One-channel version of SUPPLY",
+      "tags": [
+        "Utility"
+      ]
     }
   ]
 }

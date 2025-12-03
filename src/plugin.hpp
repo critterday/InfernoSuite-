@@ -14,3 +14,6 @@ extern Model* modelATTOFF;
 extern Model* modelSUPPLY;
 extern Model* modelFORK;
 extern Model* modelORG_EX;
+extern Model* modelDEPOT;
+extern Model* modelGATESYNC;
+extern Model* modelMiniSUPPLY;
