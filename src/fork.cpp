@@ -57,7 +57,7 @@ struct FORK : Module {
 	
 	void process(const ProcessArgs& args) override {
 
-		//maintains last 2 tine states
+		//maintains bottom 2 tine states
 		if(params[BUTTON2_PARAM].getValue() == 1.f){
 			
 			// turn on tine 3

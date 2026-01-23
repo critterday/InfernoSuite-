@@ -62,11 +62,43 @@
       ]
     },
     {
-      "slug": "miniSUPPLY",
+      "slug": "MiniSUPPLY",
       "name": "miniSUPPLY",
       "description": "One-channel version of SUPPLY",
       "tags": [
         "Utility"
+      ]
+    },
+    {
+      "slug": "FXB",
+      "name": "FXB",
+      "description": "internally patchable effect bypass manager",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "SATURN",
+      "name": "SATURN",
+      "description": "drone oscillator",
+      "tags": [
+        "Oscillator"
+      ]
+    },
+    {
+      "slug": "CVMEM",
+      "name": "CV-MEM",
+      "description": "voltage memory",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "POLYSEQ",
+      "name": "POLYSEQ",
+      "description": "Subharmonicon-style polyrhythmic sequencer",
+      "tags": [
+        "Sequencer"
       ]
     }
   ]

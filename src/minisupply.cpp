@@ -259,4 +259,4 @@ struct MiniSUPPLYWidget : ModuleWidget {
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(10.16, 118.5)), module, MiniSUPPLY::out));
 	}
 };
-Model * modelMiniSUPPLY = createModel<MiniSUPPLY, MiniSUPPLYWidget>("miniSupply");
+Model * modelMiniSUPPLY = createModel<MiniSUPPLY, MiniSUPPLYWidget>("MiniSUPPLY");
