@@ -11,7 +11,6 @@ struct FXB : Module {
 		toggle6,
 		toggle7,
 		toggle8,
-
 		mix1,
 		mix2,
 		mix3,
@@ -217,9 +216,48 @@ struct FXB : Module {
 		}
 	}
 
+	float pass;
+
+	void sendReturn(int toggle, int light, int toggleOut, int extIn, int sendOut, int retIn, int extOut, int mixer){
+		if(buttonOn(toggle, light, toggleOut)){
+			outputs[sendOut].setVoltage(inputs[extIn].getVoltage());
+			if (mix) {
+				outputs[extOut].setVoltage((params[mixer].getValue() * inputs[retIn].getVoltage()) + ((1 - params[mixer].getValue()) * inputs[extIn].getVoltage()));
+				pass = (params[mixer].getValue() * inputs[retIn].getVoltage()) + ((1 - params[mixer].getValue()) * inputs[extIn].getVoltage());
+			} else {
+				outputs[extOut].setVoltage(inputs[retIn].getVoltage());
+				pass = inputs[retIn].getVoltage();
+			}
+		} else {
+			outputs[extOut].setVoltage(inputs[extIn].getVoltage());
+			pass = inputs[extIn].getVoltage();
+		}
+	}
+
+	void srChain(int toggle, int light, int toggleOut, int extIn, int sendOut, int retIn, int extOut, int mixer){
+		if(inputs[extIn].isConnected()){
+			sendReturn(toggle, light, toggleOut, extIn, sendOut, retIn, extOut, mixer);
+		} else{
+			if(buttonOn(toggle, light, toggleOut)){
+				outputs[sendOut].setVoltage(pass);
+				if(mix){
+					outputs[extOut].setVoltage((params[mixer].getValue() * inputs[retIn].getVoltage()) + ((1 - params[mixer].getValue()) * pass));
+					pass = (params[mixer].getValue() * inputs[retIn].getVoltage()) + ((1 - params[mixer].getValue()) * pass);
+				} else {
+					outputs[extOut].setVoltage(inputs[retIn].getVoltage());
+					pass = inputs[retIn].getVoltage();
+				}
+				
+			} else {
+				outputs[extOut].setVoltage(pass);
+			}
+		}
+	}
+
 	void process(const ProcessArgs& args) override {
 
 		// call isLinked* functions
+
 		isLinkedIn(toggle1In, lock1, toggle1);
 		isLinkedIn(toggle2In, lock2, toggle2);
 		isLinkedIn(toggle3In, lock3, toggle3);
@@ -247,95 +285,36 @@ struct FXB : Module {
 			lights[mixL].setBrightness(0.f);
 		}
 
+		//set chain value and button
+		if(params[chaintoggle].getValue() == 1.f){
+			chain = true;
+			lights[chainL].setBrightness(1.f);
+		} else {
+			chain = false;
+			lights[chainL].setBrightness(0.f);
+		}
+
 		// controls send/return
-		if(buttonOn(toggle1, toggle1L, toggle1Out)){
-			outputs[s1].setVoltage(inputs[in1].getVoltage());
-			if(mix){
-				outputs[out1].setVoltage((params[mix1].getValue() * inputs[r1].getVoltage()) + ((1 - params[mix1].getValue()) * inputs[in1].getVoltage()));
-			} else {
-				outputs[out1].setVoltage(inputs[r1].getVoltage());
-			}
+		if(chain){
+			sendReturn(toggle1, toggle1L, toggle1Out, in1, s1, r1, out1, mix1);
+			srChain(toggle2, toggle2L, toggle2Out, in2, s2, r2, out2, mix2);
+			srChain(toggle3, toggle3L, toggle3Out, in3, s3, r3, out3, mix3);
+			srChain(toggle4, toggle4L, toggle4Out, in4, s4, r4, out4, mix4);
+			srChain(toggle5, toggle5L, toggle5Out, in5, s5, r5, out5, mix5);
+			srChain(toggle6, toggle6L, toggle6Out, in6, s6, r6, out6, mix6);
+			srChain(toggle7, toggle7L, toggle7Out, in7, s7, r7, out7, mix7);
+			srChain(toggle8, toggle8L, toggle8Out, in8, s8, r8, out8, mix8);
 		} else {
-			outputs[out1].setVoltage(inputs[in1].getVoltage());
+			sendReturn(toggle1, toggle1L, toggle1Out, in1, s1, r1, out1, mix1);
+			sendReturn(toggle2, toggle2L, toggle2Out, in2, s2, r2, out2, mix2);
+			sendReturn(toggle3, toggle3L, toggle3Out, in3, s3, r3, out3, mix3);
+			sendReturn(toggle4, toggle4L, toggle4Out, in4, s4, r4, out4, mix4);
+			sendReturn(toggle5, toggle5L, toggle5Out, in5, s5, r5, out5, mix5);
+			sendReturn(toggle6, toggle6L, toggle6Out, in6, s6, r6, out6, mix6);
+			sendReturn(toggle7, toggle7L, toggle7Out, in7, s7, r7, out7, mix7);
+			sendReturn(toggle8, toggle8L, toggle8Out, in8, s8, r8, out8, mix8);
 		}
-
-		if(buttonOn(toggle2, toggle2L, toggle2Out)){
-			outputs[s2].setVoltage(inputs[in2].getVoltage());
-			if (mix){
-				outputs[out2].setVoltage((params[mix2].getValue() * inputs[r2].getVoltage()) + ((1 - params[mix2].getValue()) * inputs[in2].getVoltage()));
-			} else {
-				outputs[out2].setVoltage(inputs[r2].getVoltage());
-			}
-		} else {
-			outputs[out2].setVoltage(inputs[in2].getVoltage());
-		}
-
-		if(buttonOn(toggle3, toggle3L, toggle3Out)){
-			outputs[s3].setVoltage(inputs[in3].getVoltage());
-			if (mix){
-				outputs[out3].setVoltage((params[mix3].getValue() * inputs[r3].getVoltage()) + ((1 - params[mix3].getValue()) * inputs[in3].getVoltage()));
-			} else {
-				outputs[out3].setVoltage(inputs[r3].getVoltage());
-			}
-		} else {
-			outputs[out3].setVoltage(inputs[in3].getVoltage());
-		}
-
-		if(buttonOn(toggle4, toggle4L, toggle4Out)){
-			outputs[s4].setVoltage(inputs[in4].getVoltage());
-			if (mix){
-				outputs[out4].setVoltage((params[mix4].getValue() * inputs[r4].getVoltage()) + ((1 - params[mix4].getValue()) * inputs[in4].getVoltage()));
-			} else {
-				outputs[out4].setVoltage(inputs[r4].getVoltage());
-			}
-		} else {
-			outputs[out4].setVoltage(inputs[in4].getVoltage());
-		}
-
-		if(buttonOn(toggle5, toggle5L, toggle5Out)){
-			outputs[s5].setVoltage(inputs[in5].getVoltage());
-			if (mix){
-				outputs[out5].setVoltage((params[mix5].getValue() * inputs[r5].getVoltage()) + ((1 - params[mix5].getValue()) * inputs[in5].getVoltage()));
-			} else {
-				outputs[out5].setVoltage(inputs[r5].getVoltage());
-			}
-		} else {
-			outputs[out5].setVoltage(inputs[in5].getVoltage());
-		}
-
-		if(buttonOn(toggle6, toggle6L, toggle6Out)){
-			outputs[s6].setVoltage(inputs[in6].getVoltage());
-			if (mix){
-				outputs[out6].setVoltage((params[mix6].getValue() * inputs[r6].getVoltage()) + ((1 - params[mix6].getValue()) * inputs[in6].getVoltage()));
-			} else {
-				outputs[out6].setVoltage(inputs[r6].getVoltage());
-			}
-		} else {
-			outputs[out6].setVoltage(inputs[in6].getVoltage());
-		}
-
-		if(buttonOn(toggle7, toggle7L, toggle7Out)){
-			outputs[s7].setVoltage(inputs[in7].getVoltage());
-			if (mix){
-				outputs[out7].setVoltage((params[mix7].getValue() * inputs[r7].getVoltage()) + ((1 - params[mix7].getValue()) * inputs[in7].getVoltage()));
-			} else {
-				outputs[out7].setVoltage(inputs[r7].getVoltage());
-			}
-		} else {
-			outputs[out7].setVoltage(inputs[in7].getVoltage());
-		}
-
-		if(buttonOn(toggle8, toggle8L, toggle8Out)){
-			outputs[s8].setVoltage(inputs[in8].getVoltage());
-			if (mix) {
-				outputs[out8].setVoltage((params[mix8].getValue() * inputs[r8].getVoltage()) + ((1 - params[mix8].getValue()) * inputs[in8].getVoltage()));
-			} else {
-				outputs[out8].setVoltage(inputs[r8].getVoltage());
-			}
-		} else {
-			outputs[out8].setVoltage(inputs[in8].getVoltage());
-		}
-
+		
 	}
 
 	

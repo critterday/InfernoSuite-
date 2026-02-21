@@ -19,7 +19,13 @@ void init(Plugin* p) {
 	p->addModel(modelFXB);
 	p->addModel(modelSATURN);
 	p->addModel(modelCVMEM);
-	p->addModel(modelPOLYSEQ);
+	//p->addModel(modelPOLYSEQ);
+	p->addModel(modelMiniFX);
+	p->addModel(modelDETOURS);
+	p->addModel(modelUT1);
+	p->addModel(modelRETOURS);
+	p->addModel(modelMiniTOURS);
+	p->addModel(modelPUSHSYNC);
 
 	// Any other plugin initialization may go here.
 	// As an alternative, consider lazy-loading assets and lookup tables when your module is created to reduce startup times of Rack.

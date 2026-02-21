@@ -150,36 +150,39 @@ struct SUPPLY : Module {
 
 			// check sync input for voltage
 
-			if(inputs[SYNC_INPUT].getVoltage() == 1.f){
-				channelout = 1;
-				outputs[SYNC_OUTPUT].setVoltage(1.f);
-			} else if(inputs[SYNC_INPUT].getVoltage() == 2.f){
-				channelout = 2;
-				outputs[SYNC_OUTPUT].setVoltage(2.f);
-			} else if(inputs[SYNC_INPUT].getVoltage() == 3.f){
-				channelout = 3;
-				outputs[SYNC_OUTPUT].setVoltage(3.f);
-			} else if(inputs[SYNC_INPUT].getVoltage() == 4.f){
-				channelout = 4;
-				outputs[SYNC_OUTPUT].setVoltage(4.f);
-			} else if(inputs[SYNC_INPUT].getVoltage() == 5.f){
-				channelout = 5;
-				outputs[SYNC_OUTPUT].setVoltage(5.f);
-			} else if(inputs[SYNC_INPUT].getVoltage() == 6.f){
-				channelout = 6;
-				outputs[SYNC_OUTPUT].setVoltage(6.f);
-			} else if(inputs[SYNC_INPUT].getVoltage() == 7.f){
-				channelout = 7;
-				outputs[SYNC_OUTPUT].setVoltage(7.f);
-			} else if(inputs[SYNC_INPUT].getVoltage() == 8.f){
-				channelout = 8;
-				outputs[SYNC_OUTPUT].setVoltage(8.f);
-			}
+			// if(inputs[SYNC_INPUT].getVoltage() == 1.f){
+			// 	channelout = 1;
+			// 	outputs[SYNC_OUTPUT].setVoltage(1.f);
+			// } else if(inputs[SYNC_INPUT].getVoltage() == 2.f){
+			// 	channelout = 2;
+			// 	outputs[SYNC_OUTPUT].setVoltage(2.f);
+			// } else if(inputs[SYNC_INPUT].getVoltage() == 3.f){
+			// 	channelout = 3;
+			// 	outputs[SYNC_OUTPUT].setVoltage(3.f);
+			// } else if(inputs[SYNC_INPUT].getVoltage() == 4.f){
+			// 	channelout = 4;
+			// 	outputs[SYNC_OUTPUT].setVoltage(4.f);
+			// } else if(inputs[SYNC_INPUT].getVoltage() == 5.f){
+			// 	channelout = 5;
+			// 	outputs[SYNC_OUTPUT].setVoltage(5.f);
+			// } else if(inputs[SYNC_INPUT].getVoltage() == 6.f){
+			// 	channelout = 6;
+			// 	outputs[SYNC_OUTPUT].setVoltage(6.f);
+			// } else if(inputs[SYNC_INPUT].getVoltage() == 7.f){
+			// 	channelout = 7;
+			// 	outputs[SYNC_OUTPUT].setVoltage(7.f);
+			// } else if(inputs[SYNC_INPUT].getVoltage() == 8.f){
+			// 	channelout = 8;
+			// 	outputs[SYNC_OUTPUT].setVoltage(8.f);
+			// }
+
+			outputs[SYNC_OUTPUT].setVoltage(inputs[SYNC_INPUT].getVoltage());
+			channelout = (int)inputs[SYNC_INPUT].getVoltage();
 
 		} else {
 			lights[SYNC_LIGHT].setBrightness(0.f);
 
-			// select via gate and button if not synced
+			// select via gate and button if not synced (FIX THIS WITH CAST TO CHANNELOUT)
 
 			if(params[C1B_PARAM].getValue() == 1 || inputs[GATE1_INPUT].getVoltage() > 5.f){
 			channelout = 1;

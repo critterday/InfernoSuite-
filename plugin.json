@@ -94,11 +94,51 @@
       ]
     },
     {
-      "slug": "POLYSEQ",
-      "name": "POLYSEQ",
-      "description": "Subharmonicon-style polyrhythmic sequencer",
+      "slug": "miniFX",
+      "name": "miniFX",
+      "description": "FXB but smaller!",
       "tags": [
-        "Sequencer"
+        "Utility"
+      ]
+    },
+    {
+      "slug": "DETOURS",
+      "name": "DETOURS",
+      "description": "outgoing switch",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "UT1",
+      "name": "UT1",
+      "description": "miscellaneous utilities",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "RETOURS",
+      "name": "RETOURS",
+      "description": "",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "miniTOURS",
+      "name": "miniTOURS",
+      "description": "TOURS system, but smaller",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "PUSHSYNC",
+      "name": "PUSHSYNC",
+      "description": "button triggered sync generator",
+      "tags": [
+        "Utility"
       ]
     }
   ]

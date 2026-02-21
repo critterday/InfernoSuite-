@@ -42,6 +42,7 @@ struct SATURN : Module {
 	enum InputId {
 		modinput,
 		gateinput,
+		cvin,
 		INPUTS_LEN
 	};
 	enum OutputId {
@@ -125,12 +126,15 @@ struct SATURN : Module {
 		//calculate mod amount
 		float modvolt = params[modatt].getValue() * inputs[modinput].getVoltage() * 0.25;
 
+		//set pitch cv channels
+		inputs[cvin].setChannels(5);
+
 		//calculate frequencies based on knob input
-		float freq1 = dsp::FREQ_C4 * std::pow(2.f, params[pitch1].getValue() + modvolt * params[mod1].getValue());
-		float freq2 = dsp::FREQ_C4 * std::pow(2.f, params[pitch2].getValue() + modvolt * params[mod2].getValue());
-		float freq3 = dsp::FREQ_C4 * std::pow(2.f, params[pitch3].getValue() + modvolt * params[mod3].getValue());
-		float freq4 = dsp::FREQ_C4 * std::pow(2.f, params[pitch4].getValue() + modvolt * params[mod4].getValue());
-		float freq5 = dsp::FREQ_C4 * std::pow(2.f, params[pitch5].getValue() + modvolt * params[mod5].getValue());
+		float freq1 = dsp::FREQ_C4 * std::pow(2.f, params[pitch1].getValue() + modvolt * params[mod1].getValue() + inputs[cvin].getPolyVoltage(0));
+		float freq2 = dsp::FREQ_C4 * std::pow(2.f, params[pitch2].getValue() + modvolt * params[mod2].getValue() + inputs[cvin].getPolyVoltage(1));
+		float freq3 = dsp::FREQ_C4 * std::pow(2.f, params[pitch3].getValue() + modvolt * params[mod3].getValue() + inputs[cvin].getPolyVoltage(2));
+		float freq4 = dsp::FREQ_C4 * std::pow(2.f, params[pitch4].getValue() + modvolt * params[mod4].getValue() + inputs[cvin].getPolyVoltage(3));
+		float freq5 = dsp::FREQ_C4 * std::pow(2.f, params[pitch5].getValue() + modvolt * params[mod5].getValue() + inputs[cvin].getPolyVoltage(4));
 
 		//phases stuff i dont understand at all
 		phase1 += freq1 * args.sampleTime;
@@ -247,6 +251,9 @@ struct SATURNWidget : ModuleWidget {
 		//cv and gate outputs
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(35, 98)), module, SATURN::cvOut));
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(35, 107.5)), module, SATURN::gateOut));
+
+		// cv input
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(9, 115.5)), module, SATURN::cvin));
 	}
 };
 
