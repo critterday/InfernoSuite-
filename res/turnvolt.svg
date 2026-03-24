@@ -2,13 +2,13 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="20.32mm"
+   width="10.16mm"
    height="128.5mm"
-   viewBox="0 0 20.32 128.5"
+   viewBox="0 0 10.16 128.5"
    version="1.1"
    id="svg1"
    inkscape:version="1.4 (e7c3feb1, 2024-10-09)"
-   sodipodi:docname="supplymini.svg"
+   sodipodi:docname="turnvolt.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.92496267"
-     inkscape:cx="-33.514866"
-     inkscape:cy="218.92775"
+     inkscape:zoom="0.96699099"
+     inkscape:cx="7.2389506"
+     inkscape:cy="249.7438"
      inkscape:window-width="1104"
      inkscape:window-height="760"
      inkscape:window-x="0"
@@ -39,30 +39,22 @@
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="fill:#ebebeb;stroke-width:0.79375"
+       style="fill:#ebebeb;stroke:#ebebeb;stroke-width:0.79375"
        id="rect1"
-       width="20.32"
+       width="10.159999"
        height="128.5"
        x="0"
        y="0"
-       ry="0"
+       ry="3.0582201e-18"
        inkscape:label="back" />
     <rect
        style="fill:#d77706;fill-opacity:1;stroke:#ebebeb;stroke-width:0"
        id="rect2"
        width="2"
        height="80.5"
-       x="4"
+       x="4.0799999"
        y="28.5"
        ry="0" />
-    <rect
-       style="fill:#232323;fill-opacity:1;stroke:#ebebeb;stroke-width:0"
-       id="rect3"
-       width="9.5930004"
-       height="9.5939999"
-       x="5.3629999"
-       y="113.703"
-       ry="3.481708" />
   </g>
   <g
      inkscape:groupmode="layer"

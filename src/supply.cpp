@@ -75,6 +75,7 @@ struct SUPPLY : Module {
 		LIGHT7_LIGHT,
 		LIGHT8_LIGHT,
 		SYNC_LIGHT,
+		SYNCOut_LIGHT,
 		LIGHTS_LEN
 	};
 
@@ -368,6 +369,12 @@ struct SUPPLY : Module {
 			
 		}
 
+		if(outputs[SYNC_OUTPUT].isConnected()){
+				lights[SYNCOut_LIGHT].setBrightness(1.f);
+			} else {
+				lights[SYNCOut_LIGHT].setBrightness(0.f);
+			}
+
 	}
 };
 
@@ -465,10 +472,10 @@ struct SUPPLYWidget : ModuleWidget {
 
 		// voltage outputs
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(23, 120)), module, SUPPLY::OUT1_OUTPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(59, 120)), module, SUPPLY::OUT4_OUTPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(47, 120)), module, SUPPLY::OUT3_OUTPUT));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(35, 120)), module, SUPPLY::OUT2_OUTPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(17.56, 120)), module, SUPPLY::OUT1_OUTPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(53.56, 120)), module, SUPPLY::OUT4_OUTPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(41.56, 120)), module, SUPPLY::OUT3_OUTPUT));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(29.56, 120)), module, SUPPLY::OUT2_OUTPUT));
 
 		// indicator lights
 
@@ -485,7 +492,8 @@ struct SUPPLYWidget : ModuleWidget {
 
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(6.75, 12.5)), module, SUPPLY::SYNC_INPUT));
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(64.37, 12.5)), module, SUPPLY::SYNC_OUTPUT));
-		addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(15.75, 12.5)), module, SUPPLY::SYNC_LIGHT));
+		addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(13.75, 12.5)), module, SUPPLY::SYNC_LIGHT));
+		addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(57.37, 12.5)), module, SUPPLY::SYNCOut_LIGHT));
 	}
 };
 

@@ -24,14 +24,14 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="0.96699099"
-     inkscape:cx="7.2389506"
-     inkscape:cy="249.22673"
+     inkscape:cx="-40.331296"
+     inkscape:cy="226.99281"
      inkscape:window-width="1104"
-     inkscape:window-height="761"
+     inkscape:window-height="760"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="0"
-     inkscape:current-layer="layer2" />
+     inkscape:current-layer="layer1" />
   <defs
      id="defs1" />
   <g
@@ -47,6 +47,14 @@
        y="0"
        ry="3.0582201e-18"
        inkscape:label="back" />
+    <rect
+       style="fill:#a91c03;stroke:#ebebeb;stroke-width:0;fill-opacity:1"
+       id="rect2"
+       width="2"
+       height="80.5"
+       x="4.0799999"
+       y="28.5"
+       ry="0" />
   </g>
   <g
      inkscape:groupmode="layer"

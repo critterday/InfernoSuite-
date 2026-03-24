@@ -24,10 +24,10 @@ struct MiniTOURS : Module {
 	enum LightId {
 		ENUMS(inselectL, 8),
 		ENUMS(outselectL, 8),
-		inlink,
-		inlock,
-		outlink,
-		outlock,
+		inSyncInL,
+		outSyncInL,
+		inSyncOutL,
+		outSyncOutL,
 		LIGHTS_LEN
 	};
 
@@ -39,111 +39,149 @@ struct MiniTOURS : Module {
 		configInput(inSyncIn, "in sync");
 	}
 
-	// int channelout = 0;
-	// int channelin = 0;
-	
-	// bool outSyncedIn = inputs[outSyncIn].isConnected();
-	// bool outSyncedOut = outputs[outSyncOut].isConnected();
-	// bool inSyncedIn = inputs[inSyncIn].isConnected();
-	// bool inSyncedOut = outputs[inSyncOut].isConnected();
-
-	// bool outvals[8] = {false, false, false, false, false, false, false, false};
-	// bool invals[8] = {false, false, false, false, false, false, false, false};
-	
-	// float outLvals[8] = {0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f};
-	// float inLvals[8] = {0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f};
-	
 	void process(const ProcessArgs& args) override {
 
-		// sync math
-		
+		//DTOURS
 
-		// if(outSyncedIn){
-		// 	float ininVoltage = inputs[outSyncIn].getVoltage();
-		// 	if (ininVoltage < 1.f){
-		// 		channelout = 0;
-		// 	} else if (ininVoltage > 8.f){
-		// 		channelout = 7;
-		// 	} else {
-		// 		channelout = ((int)ininVoltage) - 1;
-		// 	}
-		// } else {
-		// 	for(int i = 0; i<8; i++){
-		// 		if(params[outselect + i].getValue() == 1.f){
-		// 			channelout = i;
-		// 		}
-		// 	}
-		// }
+		//set outs channels
+		outchannelcount = inputs[in1].getChannels();
+		for(int i = 0; i<8; i++){
+			outputs[outs + i].setChannels(outchannelcount);
+		}
 
-		// float syncvoltsout = (float)(channelout + 1);
-		// outputs[outSyncOut].setVoltage(syncvoltsout);
+		//set sync lights
+		lights[outSyncInL].setBrightness(portInToFloat(outSyncIn));
+		lights[outSyncOutL].setBrightness(portOutToFloat(outSyncOut));
 
-		// if(inSyncedIn){
-		// 	float outinvoltage = inputs[inSyncIn].getVoltage();
-		// 	if(outinvoltage < 1.f){
-		// 		channelin = 0;
-		// 	} else if(outinvoltage > 8.f){
-		// 		channelin = 7;
-		// 	} else {
-		// 		channelin = ((int)outinvoltage - 1);
-		// 	}
-		// } else {
-		// 	for(int i = 0; i<8; i++){
-		// 		if(params[inselect + i].getValue() == 1.f){
-		// 			channelin = i;
-		// 		}
-		// 	}
-		// }
+		//set channel out and radio button lights
+		if(inputs[outSyncIn].isConnected()){
+			float inVoltage = inputs[outSyncIn].getVoltage();
+			if(inVoltage < 1.f){
+				channelout = 0;
+			} else {
+				channelout = ((int)inVoltage) -1;
+			};
+		} else {
+			for(int i = 0; i<8; i++){
+				if(params[outselect + i].getValue() == 1.f){
+				channelout = i;
+				}
+			}
+		}
+		for(int i = 0; i<8; i++){
+			dtoursRBV[i] = 0.f;
+		} 
+		dtoursRBV[channelout] = 1.f;
+		for(int i = 0; i<8; i++){
+			lights[outselectL + i].setBrightness(dtoursRBV[i]);
+		}
 
-		// syncvoltsout = (float)(channelin + 1);
-		// outputs[inSyncOut].setVoltage(syncvoltsout);
+		for (int i = 0; i<8; i++){
+			outputsOn[i] = false;
+		}
+		outputsOn[channelout] = true;
 
-		// if(outSyncedOut){
-		// 	lights[outlink].setBrightness(1.f);
-		// } else {
-		// 	lights[outlink].setBrightness(0.f);
-		// }
+		//set outputs
 
-		// if(outSyncedIn){
-		// 	lights[outlock].setBrightness(1.f);
-		// } else {
-		// 	lights[outlock].setBrightness(0.f);
-		// }
+		for(int i = 0; i<8; i++){
+			if(outputsOn[i]){
+				for (int c = 0; c<outchannelcount; c++){
+					outputs[outs + i].setVoltage(inputs[in1].getVoltage(c), c);
+				}
+			} else {
+				for (int c = 0; c<outchannelcount; c++){
+					outputs[outs + i].setVoltage(0.f, c);
+				}
+			}
+		}
 
-		// if(inSyncedOut){
-		// 	lights[inlink].setBrightness(1.f);
-		// } else {
-		// 	lights[inlink].setBrightness(0.f);
-		// }
+		float dsyncvoltsout = (float)(channelout + 1);
+		outputs[outSyncOut].setVoltage(dsyncvoltsout);
 
-		// if(inSyncedIn){
-		// 	lights[inlock].setBrightness(1.f);
-		// } else {
-		// 	lights[inlock].setBrightness(0.f);
-		// }
+		//RTOURS
+
+		//set sync lights
+		lights[inSyncInL].setBrightness(portInToFloat(inSyncIn));
+		lights[inSyncOutL].setBrightness(portOutToFloat(inSyncOut));
+
+		//set channelin
+
+		if(inputs[inSyncIn].isConnected()){
+			float inVoltage = inputs[inSyncIn].getVoltage();
+			if(inVoltage < 1.f){
+				channelin = 0;
+			} else {
+				channelin = ((int)inVoltage) -1;
+			}
+		} else {
+			for(int i = 0; i<8; i++){
+				if(params[inselect + i].getValue() == 1.f){
+					channelin = i;
+				}
+			}
+		}
+
+		//set in button lights
+
+		for(int i = 0; i<8; i++){
+			rtoursRBV[i] = 0.f;
+		} 
+		rtoursRBV[channelin] = 1.f;
+		for(int i = 0; i<8; i++){
+			lights[inselectL + i].setBrightness(rtoursRBV[i]);
+		}
+
+		//set input for output to use
+		for(int i = 0; i<8; i++){
+			inputsOn[i] = false;
+		}
+		inputsOn[channelin] = true;
+
+		//set input path
+		inchannelcount = inputs[ins + channelin].getChannels();
+		outputs[out1].setChannels(inchannelcount);
+
+		for(int c = 0; c<inchannelcount; c++){
+			float channelvolt = inputs[ins + channelin].getVoltage(c);
+			outputs[out1].setVoltage(channelvolt, c);
+		}
+
+		//set sync out
+		float rsyncvoltsout = (float)(channelin + 1);
+		outputs[inSyncOut].setVoltage(rsyncvoltsout);
 
 
-		//lightButtons();
 
-		// channel counts
-		//int incount = std::max(1, inputs[in1].getChannels());;
-		//int outcount std::max(1, inputs[in1].getChannels());
+
 
 	}
-	
-	// void lightButtons(){
-	// 	for(int i = 0; i < 8; i++){
-	// 		inLvals[i] = 0;
-	// 		outLvals[i] = 0;
-	// 	}
-	// 	inLvals[channelin] = 1.f;
-	// 	outLvals[channelout] = 1.f;
 
-	// 	for(int i = 0; i< 8; i++){
-	// 		lights[inselectL + i].setBrightness(inLvals[i]);
-	// 		lights[outselectL + i].setBrightness(outLvals[i]);
-	// 	}
-	// }
+	float dtoursRBV[8] = {0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f};
+	float rtoursRBV[8] = {0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f, 0.f};
+
+	bool outputsOn[8] = {false, false, false, false, false, false, false, false};
+	bool inputsOn[8] = {false, false, false, false, false, false, false, false};
+	
+	int outchannelcount = 0;
+	int channelout = 0;
+
+	int inchannelcount = 0;
+	int channelin = 0;
+
+	float portInToFloat(int port){
+		if(inputs[port].isConnected()){
+			return 1.f;
+		} else {
+			return 0.f;
+		}
+	}
+	float portOutToFloat(int port){
+		if(outputs[port].isConnected()){
+			return 1.f;
+		} else {
+			return 0.f;
+		}
+	}
 };
 
 
@@ -173,15 +211,15 @@ struct MiniTOURSWidget : ModuleWidget {
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x1, y1)), module, MiniTOURS::in1));
 
 		//out toggles
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x2, yCoords[0])), module, MiniTOURS::inselect + 0, MiniTOURS::inselectL + 0));
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x2, yCoords[1])), module, MiniTOURS::inselect + 1, MiniTOURS::inselectL + 1));
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x2, yCoords[2])), module, MiniTOURS::inselect + 2, MiniTOURS::inselectL + 2));
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x2, yCoords[3])), module, MiniTOURS::inselect + 3, MiniTOURS::inselectL + 3));
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x2, yCoords[4])), module, MiniTOURS::inselect + 4, MiniTOURS::inselectL + 4));
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x2, yCoords[5])), module, MiniTOURS::inselect + 5, MiniTOURS::inselectL + 5));
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x2, yCoords[6])), module, MiniTOURS::inselect + 6, MiniTOURS::inselectL + 6));
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x2, yCoords[7])), module, MiniTOURS::inselect + 7, MiniTOURS::inselectL + 7));
-		
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x2, yCoords[0])), module, MiniTOURS::outselect + 0, MiniTOURS::outselectL + 0));
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x2, yCoords[1])), module, MiniTOURS::outselect + 1, MiniTOURS::outselectL + 1));
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x2, yCoords[2])), module, MiniTOURS::outselect + 2, MiniTOURS::outselectL + 2));
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x2, yCoords[3])), module, MiniTOURS::outselect + 3, MiniTOURS::outselectL + 3));
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x2, yCoords[4])), module, MiniTOURS::outselect + 4, MiniTOURS::outselectL + 4));
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x2, yCoords[5])), module, MiniTOURS::outselect + 5, MiniTOURS::outselectL + 5));
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x2, yCoords[6])), module, MiniTOURS::outselect + 6, MiniTOURS::outselectL + 6));
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x2, yCoords[7])), module, MiniTOURS::outselect + 7, MiniTOURS::outselectL + 7));
+
 		//out splits
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x3, yCoords[0])), module, MiniTOURS::outs + 0));
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x3, yCoords[1])), module, MiniTOURS::outs + 1));
@@ -203,29 +241,29 @@ struct MiniTOURSWidget : ModuleWidget {
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x4, yCoords[7])), module, MiniTOURS::ins + 7));
 
 		//in toggles
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x5, yCoords[0])), module, MiniTOURS::outselect + 0, MiniTOURS::outselectL + 0));
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x5, yCoords[1])), module, MiniTOURS::outselect + 1, MiniTOURS::outselectL + 1));
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x5, yCoords[2])), module, MiniTOURS::outselect + 2, MiniTOURS::outselectL + 2));
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x5, yCoords[3])), module, MiniTOURS::outselect + 3, MiniTOURS::outselectL + 3));
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x5, yCoords[4])), module, MiniTOURS::outselect + 4, MiniTOURS::outselectL + 4));
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x5, yCoords[5])), module, MiniTOURS::outselect + 5, MiniTOURS::outselectL + 5));
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x5, yCoords[6])), module, MiniTOURS::outselect + 6, MiniTOURS::outselectL + 6));
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x5, yCoords[7])), module, MiniTOURS::outselect + 7, MiniTOURS::outselectL + 7));
-
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x5, yCoords[0])), module, MiniTOURS::inselect + 0, MiniTOURS::inselectL + 0));
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x5, yCoords[1])), module, MiniTOURS::inselect + 1, MiniTOURS::inselectL + 1));
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x5, yCoords[2])), module, MiniTOURS::inselect + 2, MiniTOURS::inselectL + 2));
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x5, yCoords[3])), module, MiniTOURS::inselect + 3, MiniTOURS::inselectL + 3));
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x5, yCoords[4])), module, MiniTOURS::inselect + 4, MiniTOURS::inselectL + 4));
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x5, yCoords[5])), module, MiniTOURS::inselect + 5, MiniTOURS::inselectL + 5));
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x5, yCoords[6])), module, MiniTOURS::inselect + 6, MiniTOURS::inselectL + 6));
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(x5, yCoords[7])), module, MiniTOURS::inselect + 7, MiniTOURS::inselectL + 7));
+		
 		// main out
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x6, y1)), module, MiniTOURS::out1));
 
 		// sync stuff
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x1, yCoords[2])), module, MiniTOURS::outSyncIn));
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x6, yCoords[2])), module, MiniTOURS::inSyncIn));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x1, yCoords[5])), module, MiniTOURS::outSyncIn));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(x6, yCoords[5])), module, MiniTOURS::inSyncIn));
 
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x1, yCoords[5])), module, MiniTOURS::outSyncOut));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x6, yCoords[5])), module, MiniTOURS::inSyncOut));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x1, yCoords[2])), module, MiniTOURS::outSyncOut));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x6, yCoords[2])), module, MiniTOURS::inSyncOut));
 
-		addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(x1, yCoords[2] - 7.5)), module, MiniTOURS::outlock));
-		addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(x1, yCoords[5] - 7.5)), module, MiniTOURS::outlink));
-		addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(x6, yCoords[2] - 7.5)), module, MiniTOURS::inlock));
-		addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(x6, yCoords[5] - 7.5)), module, MiniTOURS::inlink));
+		addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(x1, yCoords[5] - 7.5)), module, MiniTOURS::outSyncInL));
+		addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(x1, yCoords[2] - 7.5)), module, MiniTOURS::outSyncOutL));
+		addChild(createLightCentered<MediumLight<RedLight>>(mm2px(Vec(x6, yCoords[5] - 7.5)), module, MiniTOURS::inSyncInL));
+		addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(x6, yCoords[2] - 7.5)), module, MiniTOURS::inSyncOutL));
 		
 	}
 };

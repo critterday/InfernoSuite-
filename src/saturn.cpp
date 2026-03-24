@@ -37,6 +37,7 @@ struct SATURN : Module {
 		detunebutton,
 		atkknob,
 		rlsknob,
+		cvbutton,
 		PARAMS_LEN
 	};
 	enum InputId {
@@ -63,6 +64,7 @@ struct SATURN : Module {
 		mod4L,
 		mod5L,
 		gateL,
+		cvL,
 		LIGHTS_LEN
 	};
 
@@ -127,14 +129,34 @@ struct SATURN : Module {
 		float modvolt = params[modatt].getValue() * inputs[modinput].getVoltage() * 0.25;
 
 		//set pitch cv channels
-		inputs[cvin].setChannels(5);
+		float pitchoff1 = 0.f;
+		float pitchoff2 = 0.f;
+		float pitchoff3 = 0.f;
+		float pitchoff4 = 0.f;
+		float pitchoff5 = 0.f;
+
+		if(params[cvbutton].getValue() == 1.f){
+			pitchoff1 = inputs[cvin].getVoltage(0);
+			pitchoff2 = inputs[cvin].getVoltage(1);
+			pitchoff3 = inputs[cvin].getVoltage(2);
+			pitchoff4 = inputs[cvin].getVoltage(3);
+			pitchoff5 = inputs[cvin].getVoltage(4);
+		} else {
+			pitchoff1 = inputs[cvin].getVoltage(0);
+			pitchoff2 = inputs[cvin].getVoltage(0);
+			pitchoff3 = inputs[cvin].getVoltage(0);
+			pitchoff4 = inputs[cvin].getVoltage(0);
+			pitchoff5 = inputs[cvin].getVoltage(0);
+		}
+
+		lights[cvL].setBrightness(params[cvbutton].getValue());
 
 		//calculate frequencies based on knob input
-		float freq1 = dsp::FREQ_C4 * std::pow(2.f, params[pitch1].getValue() + modvolt * params[mod1].getValue() + inputs[cvin].getPolyVoltage(0));
-		float freq2 = dsp::FREQ_C4 * std::pow(2.f, params[pitch2].getValue() + modvolt * params[mod2].getValue() + inputs[cvin].getPolyVoltage(1));
-		float freq3 = dsp::FREQ_C4 * std::pow(2.f, params[pitch3].getValue() + modvolt * params[mod3].getValue() + inputs[cvin].getPolyVoltage(2));
-		float freq4 = dsp::FREQ_C4 * std::pow(2.f, params[pitch4].getValue() + modvolt * params[mod4].getValue() + inputs[cvin].getPolyVoltage(3));
-		float freq5 = dsp::FREQ_C4 * std::pow(2.f, params[pitch5].getValue() + modvolt * params[mod5].getValue() + inputs[cvin].getPolyVoltage(4));
+		float freq1 = dsp::FREQ_C4 * std::pow(2.f, params[pitch1].getValue() + modvolt * params[mod1].getValue() + pitchoff1);
+		float freq2 = dsp::FREQ_C4 * std::pow(2.f, params[pitch2].getValue() + modvolt * params[mod2].getValue() + pitchoff2);
+		float freq3 = dsp::FREQ_C4 * std::pow(2.f, params[pitch3].getValue() + modvolt * params[mod3].getValue() + pitchoff3);
+		float freq4 = dsp::FREQ_C4 * std::pow(2.f, params[pitch4].getValue() + modvolt * params[mod4].getValue() + pitchoff4);
+		float freq5 = dsp::FREQ_C4 * std::pow(2.f, params[pitch5].getValue() + modvolt * params[mod5].getValue() + pitchoff5);
 
 		//phases stuff i dont understand at all
 		phase1 += freq1 * args.sampleTime;
@@ -252,8 +274,9 @@ struct SATURNWidget : ModuleWidget {
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(35, 98)), module, SATURN::cvOut));
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(35, 107.5)), module, SATURN::gateOut));
 
-		// cv input
+		// cv input and selector
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(9, 115.5)), module, SATURN::cvin));
+		addParam(createLightParamCentered<VCVLightLatch<MediumSimpleLight<WhiteLight>>>(mm2px(Vec(9, 108)), module, SATURN::cvbutton, SATURN::cvL));
 	}
 };
 

@@ -27,3 +27,5 @@ extern Model* modelRETOURS;
 extern Model* modelMiniTOURS;
 extern Model* modelUT1;
 extern Model* modelPUSHSYNC;
+extern Model* modelPUSHGATE;
+extern Model* modelTURNVOLT;

@@ -8,9 +8,7 @@ struct UT1 : Module {
 		g1,
 		g2,
 		g3,
-		cv1,
-		cv2,
-		cv3,
+		ENUMS(cv, 3),
 		cvs1,
 		cvs2,
 		cvs3,
@@ -34,9 +32,7 @@ struct UT1 : Module {
 		g1L,
 		g2L,
 		g3L,
-		cv1L,
-		cv2L,
-		cv3L,
+		ENUMS(cvLs, 3),
 		LIGHTS_LEN
 	};
 
@@ -47,6 +43,9 @@ struct UT1 : Module {
 		configParam(g1, 0.f, 1.f, 0.f, "gate 1");
 		configParam(g2, 0.f, 1.f, 0.f, "gate 1");
 		configParam(g3, 0.f, 1.f, 0.f, "gate 1");
+		configParam(cv + 0, -5, 5, 0);
+		configParam(cv + 1, -5, 5, 0);
+		configParam(cv + 2, -5, 5, 0);
 	}
 
 
@@ -61,11 +60,37 @@ struct UT1 : Module {
 		makeGate(g2, g2L, g2out);
 		makeGate(g3, g3L, g3out);
 
-		//cv generator
+		//3-supply
+		if(buttonTrue(cvs3)){
+			channel = 2;
+		} else if (buttonTrue(cvs2)) {
+			channel = 1;
+		} else if (buttonTrue(cvs1)) {
+			channel = 0;
+		}
+
+		for (int i = 0; i<3; i++){
+			lightvals[i] = 0.f;
+		}
+		lightvals[channel] = 1.f;
+		for (int i = 0; i<3; i++){
+			lights[cvLs + i].setBrightness(lightvals[i]); 
+		}
+
+		outputs[cvout].setVoltage(params[cv+channel].getValue());
+		
+
+
+
+		
 		
 	}
 
-	int state;
+	int channel;
+
+	float lightvals[3] = {0.f, 0.f, 0.f};
+
+	//int state;
 
 	void makeGate(int param, int light, int out){
 		float paramval = params[param].getValue();
@@ -79,6 +104,14 @@ struct UT1 : Module {
 
 	void buttonOn(int param, int light){
 		lights[light].setBrightness(params[param].getValue());
+	}
+	
+	bool buttonTrue(int param){
+		if(params[param].getValue() == 1.f){
+			return true;
+		} else {
+			return false;
+		}
 	}
 };
 
@@ -114,13 +147,13 @@ struct UT1Widget : ModuleWidget {
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(15.24, 73)), module, UT1::g3out));
 
 		//cv generator
-		addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(15.24, 86.5)), module, UT1::cv1));
-		addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(15.24, 95.5)), module, UT1::cv2));
-		addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(15.24, 104.5)), module, UT1::cv3));
+		addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(15.24, 86.5)), module, UT1::cv+0));
+		addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(15.24, 95.5)), module, UT1::cv+1));
+		addParam(createParamCentered<RoundSmallBlackKnob>(mm2px(Vec(15.24, 104.5)), module, UT1::cv+2));
 
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(5.08, 86.5)), module, UT1::cvs1, UT1::cv1L));
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(5.08, 95.5)), module, UT1::cvs2, UT1::cv2L));
-		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(5.08, 104.5)), module, UT1::cvs3, UT1::cv3L));
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(5.08, 86.5)), module, UT1::cvs1, UT1::cvLs + 0));
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(5.08, 95.5)), module, UT1::cvs2, UT1::cvLs + 1));
+		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(5.08, 104.5)), module, UT1::cvs3, UT1::cvLs + 2));
 
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(10.16, 113.5)), module, UT1::cvout));
 

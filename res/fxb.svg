@@ -23,23 +23,32 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="2.4635609"
-     inkscape:cx="-23.949073"
-     inkscape:cy="95.796291"
-     inkscape:window-width="1104"
-     inkscape:window-height="765"
+     inkscape:zoom="6.5720801"
+     inkscape:cx="225.49938"
+     inkscape:cy="52.114398"
+     inkscape:window-width="1440"
+     inkscape:window-height="764"
      inkscape:window-x="0"
      inkscape:window-y="25"
      inkscape:window-maximized="0"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="layer3" />
   <defs
-     id="defs1" />
+     id="defs1">
+    <linearGradient
+       id="swatch2"
+       inkscape:swatch="solid">
+      <stop
+         style="stop-color:#a91c03;stop-opacity:1;"
+         offset="0"
+         id="stop2" />
+    </linearGradient>
+  </defs>
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
     <rect
-       style="fill:#ebebeb;stroke-width:0.79375"
+       style="fill:#ebebeb;stroke-width:0.79375;fill-opacity:1"
        id="rect1"
        width="71.120003"
        height="128.5"
@@ -47,6 +56,44 @@
        y="0"
        ry="0"
        inkscape:label="back" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer3"
+     inkscape:label="deco">
+    <rect
+       style="fill:#a91c03;fill-opacity:1;stroke:#ebebeb;stroke-width:0;stroke-dasharray:none"
+       id="rect2"
+       width="3"
+       height="80.5"
+       x="52.060001"
+       y="12.5"
+       inkscape:label="mix" />
+    <rect
+       style="fill:#c13c05;fill-opacity:1;stroke:#ebebeb;stroke-width:0;stroke-dasharray:none"
+       id="rect2-2"
+       width="3"
+       height="80.5"
+       x="33.060001"
+       y="12.5"
+       inkscape:label="return" />
+    <rect
+       style="fill:#c13c05;fill-opacity:1;stroke:#ebebeb;stroke-width:0;stroke-dasharray:none"
+       id="rect3"
+       width="3"
+       height="80.5"
+       x="15.06"
+       y="12.5"
+       inkscape:label="send" />
+    <rect
+       style="fill:#a91c03;fill-opacity:1;stroke:#ebebeb;stroke-width:0;stroke-dasharray:none"
+       id="rect4"
+       width="1.5"
+       height="9.7905598"
+       x="26.630739"
+       y="-57.485081"
+       inkscape:label="mixlink"
+       transform="rotate(72.23574)" />
   </g>
   <g
      inkscape:groupmode="layer"

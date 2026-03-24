@@ -43,7 +43,14 @@ struct MiniFX : Module {
 		config(PARAMS_LEN, INPUTS_LEN, OUTPUTS_LEN, LIGHTS_LEN);
 	}
 
+	int channelsone;
+	int channelstwo;
+
 	void process(const ProcessArgs& args) override {
+
+		//set channels
+		channelsone = std::max(1, inputs[in1].getChannels());
+		channelstwo = std::max(1, inputs[in2].getChannels());
 
 		//check links
 		isLinkedOut(toggle1Out, link1);
@@ -63,8 +70,8 @@ struct MiniFX : Module {
 		bool onOne = buttonOn(toggle1, toggle1L, toggle1Out);
 		bool onTwo = buttonOn(toggle2, toggle2L, toggle2Out);
 
-		sendReturn(onOne, in1, s1, r1, out1, mix1);
-		sendReturn(onTwo, in2, s2, r2, out2, mix2);
+		sendReturn(onOne, in1, s1, r1, out1, mix1, channelsone);
+		sendReturn(onTwo, in2, s2, r2, out2, mix2, channelstwo);
 	}
 
 	void isLinkedOut(int out, int light){
@@ -102,12 +109,18 @@ struct MiniFX : Module {
 		}
 	}
 
-	void sendReturn(bool isOn, int extIn, int s, int r, int extOut, int mixer){
+	void sendReturn(bool isOn, int extIn, int s, int r, int extOut, int mixer, int looplength){
 		if(isOn){
 			outputs[s].setVoltage(inputs[extIn].getVoltage());
+			// for (int i = 0; i < looplength; i++){
+			// 	outputs[s].setVoltage(inputs[extIn].getVoltage(i), i);
+			// }
 			if(mix){
 				float mixout = (params[mixer].getValue() * inputs[r].getVoltage()) + ((1 - params[mixer].getValue()) * inputs[extIn].getVoltage());
 				outputs[extOut].setVoltage(mixout);
+				// for (int i = 0; i < looplength; i++){
+				// 	outputs[extOut].setVoltage(mixout, i);
+				// }	
 			} else {
 				outputs[extOut].setVoltage(inputs[r].getVoltage());
 			}
