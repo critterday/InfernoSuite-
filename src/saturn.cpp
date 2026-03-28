@@ -10,6 +10,18 @@ struct SATURN : Module {
 	float phase4;
 	float phase5;
 
+	float phase1a;
+	float phase2a;
+	float phase3a;
+	float phase4a;
+	float phase5a;
+
+	float phase1b;
+	float phase2b;
+	float phase3b;
+	float phase4b;
+	float phase5b;
+
 	bool hold = false;
 	bool detune = false;
 
@@ -38,6 +50,7 @@ struct SATURN : Module {
 		atkknob,
 		rlsknob,
 		cvbutton,
+		spreadknob,
 		PARAMS_LEN
 	};
 	enum InputId {
@@ -50,6 +63,7 @@ struct SATURN : Module {
 		sawOut,
 		cvOut,
 		gateOut,
+		debugOut,
 		OUTPUTS_LEN
 	};
 	enum LightId {
@@ -89,6 +103,8 @@ struct SATURN : Module {
 		configParam(mod3, 0.f, 1.f, 0.f, "mod oscillator");
 		configParam(mod4, 0.f, 1.f, 0.f, "mod oscillator");
 		configParam(mod5, 0.f, 1.f, 0.f, "mod oscillator");
+
+		configParam(spreadknob, 0.f, 1.f, 0.f, "saw spread control");
 	}
 
 	void process(const ProcessArgs& args) override {
@@ -151,6 +167,11 @@ struct SATURN : Module {
 
 		lights[cvL].setBrightness(params[cvbutton].getValue());
 
+		float spreadmax = 0.0208;
+		float spread = params[spreadknob].getValue() * spreadmax;
+
+		outputs[debugOut].setVoltage(spread);
+
 		//calculate frequencies based on knob input
 		float freq1 = dsp::FREQ_C4 * std::pow(2.f, params[pitch1].getValue() + modvolt * params[mod1].getValue() + pitchoff1);
 		float freq2 = dsp::FREQ_C4 * std::pow(2.f, params[pitch2].getValue() + modvolt * params[mod2].getValue() + pitchoff2);
@@ -158,29 +179,93 @@ struct SATURN : Module {
 		float freq4 = dsp::FREQ_C4 * std::pow(2.f, params[pitch4].getValue() + modvolt * params[mod4].getValue() + pitchoff4);
 		float freq5 = dsp::FREQ_C4 * std::pow(2.f, params[pitch5].getValue() + modvolt * params[mod5].getValue() + pitchoff5);
 
+		float freq1a = dsp::FREQ_C4 * std::pow(2.f, params[pitch1].getValue() + modvolt * params[mod1].getValue() + pitchoff1 + spread);
+		float freq2a = dsp::FREQ_C4 * std::pow(2.f, params[pitch2].getValue() + modvolt * params[mod2].getValue() + pitchoff2 + spread);
+		float freq3a = dsp::FREQ_C4 * std::pow(2.f, params[pitch3].getValue() + modvolt * params[mod3].getValue() + pitchoff3 + spread);
+		float freq4a = dsp::FREQ_C4 * std::pow(2.f, params[pitch4].getValue() + modvolt * params[mod4].getValue() + pitchoff4 + spread);
+		float freq5a = dsp::FREQ_C4 * std::pow(2.f, params[pitch5].getValue() + modvolt * params[mod5].getValue() + pitchoff5 + spread);
+
+		float freq1b = dsp::FREQ_C4 * std::pow(2.f, params[pitch1].getValue() + modvolt * params[mod1].getValue() + pitchoff1 - spread);
+		float freq2b = dsp::FREQ_C4 * std::pow(2.f, params[pitch2].getValue() + modvolt * params[mod2].getValue() + pitchoff2 - spread);
+		float freq3b = dsp::FREQ_C4 * std::pow(2.f, params[pitch3].getValue() + modvolt * params[mod3].getValue() + pitchoff3 - spread);
+		float freq4b = dsp::FREQ_C4 * std::pow(2.f, params[pitch4].getValue() + modvolt * params[mod4].getValue() + pitchoff4 - spread);
+		float freq5b = dsp::FREQ_C4 * std::pow(2.f, params[pitch5].getValue() + modvolt * params[mod5].getValue() + pitchoff5 - spread);
+
 		//phases stuff i dont understand at all
 		phase1 += freq1 * args.sampleTime;
-		if (phase1 >= 1.f)
+		if (phase1 >= 1.f){
 			phase1 -= 1.f;
+		}
 		phase2 += freq2 * args.sampleTime;
-		if (phase2 >= 1.f)
+		if (phase2 >= 1.f){
 			phase2 -= 1.f;
+		}
 		phase3 += freq3 * args.sampleTime;
-		if (phase3 >= 1.f)
+		if (phase3 >= 1.f){
 			phase3 -= 1.f;
+		}
 		phase4 += freq4 * args.sampleTime;
-		if (phase4 >= 1.f)
+		if (phase4 >= 1.f){
 			phase4 -= 1.f;
+		}
 		phase5 += freq5 * args.sampleTime;
-		if (phase5 >= 1.f)
+		if (phase5 >= 1.f){
 			phase5 -= 1.f;
+		}
+
+		//a
+
+		phase1a += freq1a * args.sampleTime;
+		if (phase1a >= 1.f){
+			phase1a -= 1.f;
+		}
+		phase2a += freq2a * args.sampleTime;
+		if (phase2a >= 1.f){
+			phase2a -= 1.f;
+		}
+		phase3a += freq3a * args.sampleTime;
+		if (phase3a >= 1.f){
+			phase3a -= 1.f;
+		}
+		phase4a += freq4a * args.sampleTime;
+		if (phase4a >= 1.f){
+			phase4a -= 1.f;
+		}
+		phase5a += freq5a * args.sampleTime;
+		if (phase5a >= 1.f){
+			phase5a -= 1.f;
+		}
+
+		//b
+
+		phase1b += freq1b * args.sampleTime;
+		if (phase1b >= 1.f){
+			phase1b -= 1.f;
+		}
+		phase2b += freq2b * args.sampleTime;
+		if (phase2b >= 1.f){
+			phase2b -= 1.f;
+		}
+		phase3b += freq3b * args.sampleTime;
+		if (phase3b >= 1.f){
+			phase3b -= 1.f;
+		}
+		phase4b += freq4b * args.sampleTime;
+		if (phase4b >= 1.f){
+			phase4b -= 1.f;
+		}
+		phase5b += freq5b * args.sampleTime;
+		if (phase5b >= 1.f){
+			phase5b -= 1.f;
+		}
+
 
 		// saw waves
-		float saw1 = sawgen(phase1);
-		float saw2 = sawgen(phase2);
-		float saw3 = sawgen(phase3);
-		float saw4 = sawgen(phase4);
-		float saw5 = sawgen(phase5);
+		float saw1 = ((sawgen(phase1) + sawgen(phase1a) + sawgen(phase1b))/3);
+		float saw2 = ((sawgen(phase2) + sawgen(phase2a) + sawgen(phase2b))/3);
+		float saw3 = ((sawgen(phase3) + sawgen(phase3a) + sawgen(phase3b))/3);
+		float saw4 = ((sawgen(phase4) + sawgen(phase4a) + sawgen(phase4b))/3);
+		float saw5 = ((sawgen(phase5) + sawgen(phase5a) + sawgen(phase5b))/3);
 
 		//mixer section
 		float oscs = params[on1].getValue() + params[on2].getValue() + params[on3].getValue() + params[on4].getValue() + params[on5].getValue();
@@ -195,7 +280,7 @@ struct SATURN : Module {
 		}
 
 		// prototype volume limiter
-		float boost = 0.25;
+		float boost = 0.5;
 		if((oscs == 0) || !hold){
 			mix = 0.f;
 		} else{
@@ -277,6 +362,14 @@ struct SATURNWidget : ModuleWidget {
 		// cv input and selector
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(9, 115.5)), module, SATURN::cvin));
 		addParam(createLightParamCentered<VCVLightLatch<MediumSimpleLight<WhiteLight>>>(mm2px(Vec(9, 108)), module, SATURN::cvbutton, SATURN::cvL));
+
+		//spread
+		addParam(createParamCentered<Trimpot>(mm2px(Vec(9, 75)), module, SATURN::spreadknob));
+
+		//debug out
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x2, 120)), module, SATURN::debugOut));
+
+
 	}
 };
 
