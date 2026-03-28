@@ -134,7 +134,7 @@ struct ORG_EX : Module {
 	}
 
 	
-	// SEE IF MOVING THESE AROUND FIXES INITIALIZE FUNCTION (nvm i think i got it) <- no i fuckin didnt lmao
+	// SEE IF MOVING THESE AROUND FIXES INITIALIZE FUNCTION (nvm i think i got it) <- no i didnt lmao
 	float cpitch = 0;
 	float dpitch = 0;
 	float epitch = 0;
