@@ -194,10 +194,10 @@ struct GATESYNCWidget : ModuleWidget {
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.773, 120)), module, GATESYNC::g8In));
 		
 		//sync out
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(14.547, 18)), module, GATESYNC::syncOut));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(14.547, 23)), module, GATESYNC::syncOut));
 		
 		// sync in
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.773, 18)), module, GATESYNC::syncIn));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(5.773, 23)), module, GATESYNC::syncIn));
 		
 		//gates out
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(14.547, 40)), module, GATESYNC::g1Out));

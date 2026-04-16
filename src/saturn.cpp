@@ -343,31 +343,31 @@ struct SATURNWidget : ModuleWidget {
 		addParam(createLightParamCentered<VCVLightLatch<MediumSimpleLight<WhiteLight>>>(mm2px(Vec(x1, y5)), module, SATURN::mod5, SATURN::mod5L));
 
 		//mod input and knob
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(9, 92.5)), module, SATURN::modinput));
-		addParam(createParamCentered<Trimpot>(mm2px(Vec(9, 85)), module, SATURN::modatt));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(11.5, 92.5)), module, SATURN::modinput));
+		addParam(createParamCentered<Trimpot>(mm2px(Vec(11.5, 85)), module, SATURN::modatt));
 
 		
 		
-		//output
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x2, 110)), module, SATURN::sawOut));
+		//output (deprecated, uses debug out for main out now)
+		//addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x2, 110)), module, SATURN::sawOut));
 		
 		//gate input and hold button
-		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(30, 87.5)), module, SATURN::gateinput));
-		addParam(createLightParamCentered<VCVLightLatch<MediumSimpleLight<WhiteLight>>>(mm2px(Vec(30, 80)), module, SATURN::holdbutton, SATURN::gateL));
+		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(27, 87.5)), module, SATURN::gateinput));
+		addParam(createLightParamCentered<VCVLightLatch<MediumSimpleLight<WhiteLight>>>(mm2px(Vec(34.5, 87.5)), module, SATURN::holdbutton, SATURN::gateL));
 
 		//cv and gate outputs
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(35, 98)), module, SATURN::cvOut));
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(35, 107.5)), module, SATURN::gateOut));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(35, 103)), module, SATURN::cvOut));
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(35, 112.5)), module, SATURN::gateOut));
 
 		// cv input and selector
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(9, 115.5)), module, SATURN::cvin));
 		addParam(createLightParamCentered<VCVLightLatch<MediumSimpleLight<WhiteLight>>>(mm2px(Vec(9, 108)), module, SATURN::cvbutton, SATURN::cvL));
 
 		//spread
-		addParam(createParamCentered<Trimpot>(mm2px(Vec(9, 75)), module, SATURN::spreadknob));
+		addParam(createParamCentered<Trimpot>(mm2px(Vec(31.64, 75)), module, SATURN::spreadknob));
 
-		//debug out
-		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x2, 120)), module, SATURN::debugOut));
+		//final out 
+		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(x2, 120)), module, SATURN::sawOut));
 
 
 	}

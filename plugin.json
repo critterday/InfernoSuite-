@@ -86,14 +86,6 @@
       ]
     },
     {
-      "slug": "CVMEM",
-      "name": "CV-MEM",
-      "description": "voltage memory",
-      "tags": [
-        "Utility"
-      ]
-    },
-    {
       "slug": "miniFX",
       "name": "miniFX",
       "description": "FXB but smaller!",

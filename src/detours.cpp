@@ -186,7 +186,7 @@ struct DETOURSWidget : ModuleWidget {
 
 		float spacing = 5;
 		float yDelta = spacing/2;
-		float xDelta = sqrt((spacing * spacing) - (yDelta * yDelta));
+		float xDelta = sqrt((spacing * spacing) - (yDelta * yDelta)); // = 4.33
 
 		float inx = 10;
 		float iny = 60;
@@ -246,7 +246,7 @@ struct DETOURSWidget : ModuleWidget {
 		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(selectx, yCoords[6])), module, DETOURS::t + 6, DETOURS::tL + 6));
 		addParam(createLightParamCentered<VCVLightButton<MediumSimpleLight<YellowLight>>>(mm2px(Vec(selectx, yCoords[7])), module, DETOURS::t + 7, DETOURS::tL + 7));
 
-		// sync stuff (fucked)
+		// sync stuff (fixed!)
 		addOutput(createOutputCentered<PJ301MPort>(mm2px(Vec(10, 100)), module, DETOURS::syncout));
 		addInput(createInputCentered<PJ301MPort>(mm2px(Vec(10, 115)), module, DETOURS::syncin));
 		addChild(createLightCentered<MediumLight<YellowLight>>(mm2px(Vec(10, 92.5)), module, DETOURS::synclink));

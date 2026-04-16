@@ -60,15 +60,17 @@ struct ATTOFF : Module {
 	void process(const ProcessArgs& args) override {
 
 		for (int i = 0; i < 8; i++){
-			int channels = inputs[in + i].getChannels();
-			outputs[out + i].setChannels(std::max(1, channels));
+			//int channels = inputs[in + i].getChannels();
+			//outputs[out + i].setChannels(std::max(1, channels));
 
-			for (int c = 0; c < channels; c++){
-				float volts = inputs[in + i].getVoltage(c);
-				volts = volts * params[attp + i].getValue();
-				volts = volts + params[offp + i].getValue();
-				outputs[out + i].setVoltage(volts, c);
-			}
+			// for (int c = 0; c < channels; c++){
+				
+			// }
+
+			float volts = inputs[in + i].getNormalVoltage(0.f);
+			float attvolts = volts * params[attp + i].getValue();
+			float offvolts = attvolts + params[offp + i].getValue();
+			outputs[out + i].setVoltage(offvolts);
 		}
 
 	}

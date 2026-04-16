@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.96699099"
-     inkscape:cx="7.2389506"
-     inkscape:cy="249.7438"
+     inkscape:zoom="3.1301821"
+     inkscape:cx="13.73722"
+     inkscape:cy="57.983847"
      inkscape:window-width="1104"
      inkscape:window-height="760"
      inkscape:window-x="0"
@@ -55,6 +55,22 @@
        x="4.0799999"
        y="28.5"
        ry="0" />
+    <text
+       xml:space="preserve"
+       style="font-weight:100;font-size:7.05556px;font-family:'GB18030 Bitmap';-inkscape-font-specification:'GB18030 Bitmap, Thin';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;display:none;fill:#a91c03;stroke:#ebebeb;stroke-width:0"
+       x="0.35761833"
+       y="11.647862"
+       id="text1"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:'Avenir Next';-inkscape-font-specification:'Avenir Next, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;stroke-width:0"
+         x="0.35761833"
+         y="11.647862">PG</tspan></text>
+    <path
+       style="font-size:7.05556px;font-family:'Avenir Next';-inkscape-font-specification:'Avenir Next, Normal';fill:#c13c05;stroke:#ebebeb;stroke-width:0;fill-opacity:1"
+       d="m 1.020841,6.6525259 h 1.411112 q 0.3810003,0 0.6914449,0.084667 0.3104446,0.077611 0.529167,0.2469446 0.2257779,0.1622779 0.3457224,0.416278 0.1199446,0.2469447 0.1199446,0.5856115 0,0.3386669 -0.1270001,0.5926671 Q 3.8712873,8.8256384 3.6455093,8.9949718 3.426787,9.1572497 3.1092868,9.2419164 2.7988421,9.3265832 2.4178419,9.3265832 H 1.5288413 V 11.647862 H 1.020841 Z M 1.5288413,8.896194 h 0.8607783 q 0.5997227,0 0.9101673,-0.2328335 0.3104446,-0.2328335 0.3104446,-0.6773338 0,-0.4656669 -0.3245557,-0.6773337 Q 2.9681756,7.0899706 2.3896196,7.0899706 H 1.5288413 Z M 8.9019009,7.548582 Q 8.6408452,7.2734152 8.2810116,7.1252484 7.921178,6.9700261 7.4555111,6.9700261 q -0.4797781,0 -0.8678339,0.176389 -0.3810003,0.176389 -0.6491116,0.4797781 -0.2681112,0.2963335 -0.416278,0.6914449 -0.1411112,0.3951113 -0.1411112,0.8325561 0,0.4374447 0.1411112,0.832556 0.1481668,0.3951118 0.416278,0.6914448 0.2681113,0.296334 0.6491116,0.472723 0.3880558,0.176389 0.8678339,0.176389 0.4233336,0 0.7761116,-0.09172 0.352778,-0.09172 0.5715003,-0.232833 V 9.4818055 H 7.6389556 V 9.0373052 h 1.6721678 v 2.2507238 q -0.4092225,0.246944 -0.881945,0.366889 -0.4727226,0.119945 -0.9807229,0.119945 -0.5644448,0 -1.0442229,-0.197556 Q 5.9244545,11.379751 5.5787321,11.034029 5.2330096,10.681251 5.0354539,10.201473 4.8449538,9.7216945 4.8449538,9.1501942 q 0,-0.5715004 0.1975557,-1.0512785 0.1975557,-0.4797781 0.5432781,-0.8255005 0.352778,-0.352778 0.8255006,-0.5503337 0.4797781,-0.1975557 1.0371673,-0.1975557 0.5997226,0 1.0442229,0.176389 0.4445003,0.176389 0.7620005,0.4938892 z"
+       id="text2"
+       aria-label="PG" />
   </g>
   <g
      inkscape:groupmode="layer"

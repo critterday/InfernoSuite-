@@ -23,9 +23,9 @@
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
-     inkscape:zoom="0.96699099"
-     inkscape:cx="7.2389506"
-     inkscape:cy="249.7438"
+     inkscape:zoom="3.3903435"
+     inkscape:cx="-0.58991072"
+     inkscape:cy="71.23172"
      inkscape:window-width="1104"
      inkscape:window-height="760"
      inkscape:window-x="0"
@@ -55,6 +55,22 @@
        x="4.0799999"
        y="28.5"
        ry="0" />
+    <text
+       xml:space="preserve"
+       style="font-weight:100;font-size:7.05556px;font-family:'GB18030 Bitmap';-inkscape-font-specification:'GB18030 Bitmap, Thin';text-align:start;writing-mode:lr-tb;direction:ltr;text-anchor:start;display:none;fill:#d77706;fill-opacity:1;stroke:#ebebeb;stroke-width:0"
+       x="0.86495155"
+       y="11.563336"
+       id="text1"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:7.05556px;font-family:'Avenir Next';-inkscape-font-specification:'Avenir Next, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#d77706;fill-opacity:1;stroke-width:0"
+         x="0"
+         y="0">TV</tspan></text>
+    <path
+       style="font-size:7.05556px;font-family:'Avenir Next';-inkscape-font-specification:'Avenir Next, Normal';fill:#d77706;stroke:#ebebeb;stroke-width:0"
+       d="M 3.1297863,11.563336 H 2.621786 V 7.0195557 H 0.94961827 V 6.5679998 H 4.8019541 V 7.0195557 H 3.1297863 Z m 3.9511114,-0.656167 h 0.014111 L 8.7177877,6.5679998 H 9.2610658 L 7.349009,11.563336 H 6.8127865 L 4.9077852,6.5679998 h 0.5503337 z"
+       id="text2"
+       aria-label="TV" />
   </g>
   <g
      inkscape:groupmode="layer"

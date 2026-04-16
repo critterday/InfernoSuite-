@@ -118,6 +118,10 @@ struct FORK : Module {
 				outputs[GATEOUT2_OUTPUT].setVoltage(0.f, c);
 				outputs[GATEOUT3_OUTPUT].setVoltage(0.f, c);
 				outputs[GATEOUT4_OUTPUT].setVoltage(0.f, c);
+
+				outputs[CVOUT2_OUTPUT].setVoltage(0.f, c);
+				outputs[CVOUT3_OUTPUT].setVoltage(0.f, c);
+				outputs[CVOUT4_OUTPUT].setVoltage(0.f, c);
 			} else {
 				if (cvvolts < divtwo and twostate == true){
 					if (cvvolts < divthree and threestate == true){
@@ -127,6 +131,10 @@ struct FORK : Module {
 						outputs[GATEOUT1_OUTPUT].setVoltage(0.f, c);
 						outputs[GATEOUT2_OUTPUT].setVoltage(0.f, c);
 						outputs[GATEOUT3_OUTPUT].setVoltage(0.f, c);
+
+						outputs[CVOUT1_OUTPUT].setVoltage(0.f, c);
+						outputs[CVOUT2_OUTPUT].setVoltage(0.f, c);
+						outputs[CVOUT3_OUTPUT].setVoltage(0.f, c);
 					} else {
 						outputs[CVOUT3_OUTPUT].setVoltage(cvvolts, c);
 						outputs[GATEOUT3_OUTPUT].setVoltage(gatevolts, c);
@@ -134,6 +142,10 @@ struct FORK : Module {
 						outputs[GATEOUT1_OUTPUT].setVoltage(0.f, c);
 						outputs[GATEOUT2_OUTPUT].setVoltage(0.f, c);
 						outputs[GATEOUT4_OUTPUT].setVoltage(0.f, c);
+
+						outputs[CVOUT1_OUTPUT].setVoltage(0.f, c);
+						outputs[CVOUT2_OUTPUT].setVoltage(0.f, c);
+						outputs[CVOUT4_OUTPUT].setVoltage(0.f, c);
 					}
 				} else {
 					outputs[CVOUT2_OUTPUT].setVoltage(cvvolts, c);
@@ -142,6 +154,10 @@ struct FORK : Module {
 					outputs[GATEOUT1_OUTPUT].setVoltage(0.f, c);
 					outputs[GATEOUT3_OUTPUT].setVoltage(0.f, c);
 					outputs[GATEOUT4_OUTPUT].setVoltage(0.f, c);
+
+					outputs[CVOUT1_OUTPUT].setVoltage(0.f, c);
+					outputs[CVOUT3_OUTPUT].setVoltage(0.f, c);
+					outputs[CVOUT4_OUTPUT].setVoltage(0.f, c);
 				}
 			}
 			

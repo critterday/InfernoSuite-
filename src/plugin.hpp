@@ -19,7 +19,7 @@ extern Model* modelGATESYNC;
 extern Model* modelMiniSUPPLY;
 extern Model* modelFXB;
 extern Model* modelSATURN;
-extern Model* modelCVMEM;
+//extern Model* modelCVMEM;
 //extern Model* modelPOLYSEQ;
 extern Model* modelMiniFX;
 extern Model* modelDETOURS;

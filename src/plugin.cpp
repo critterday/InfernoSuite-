@@ -18,7 +18,7 @@ void init(Plugin* p) {
 	p->addModel(modelMiniSUPPLY);
 	p->addModel(modelFXB);
 	p->addModel(modelSATURN);
-	p->addModel(modelCVMEM);
+	//p->addModel(modelCVMEM);
 	//p->addModel(modelPOLYSEQ);
 	p->addModel(modelMiniFX);
 	p->addModel(modelDETOURS);

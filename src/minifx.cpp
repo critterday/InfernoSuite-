@@ -45,12 +45,16 @@ struct MiniFX : Module {
 
 	int channelsone;
 	int channelstwo;
+	int channelsoneback;
+	int channelstwoback;
 
 	void process(const ProcessArgs& args) override {
 
 		//set channels
 		channelsone = std::max(1, inputs[in1].getChannels());
+		channelsoneback = std::max(1, inputs[r1].getChannels());
 		channelstwo = std::max(1, inputs[in2].getChannels());
+		channelstwoback = std::max(1, inputs[r2].getChannels());
 
 		//check links
 		isLinkedOut(toggle1Out, link1);
@@ -70,8 +74,66 @@ struct MiniFX : Module {
 		bool onOne = buttonOn(toggle1, toggle1L, toggle1Out);
 		bool onTwo = buttonOn(toggle2, toggle2L, toggle2Out);
 
-		sendReturn(onOne, in1, s1, r1, out1, mix1, channelsone);
-		sendReturn(onTwo, in2, s2, r2, out2, mix2, channelstwo);
+		//sendReturn(onOne, in1, s1, r1, out1, mix1, channelsone);
+		//sendReturn(onTwo, in2, s2, r2, out2, mix2, channelstwo);
+
+
+		if(onOne){
+			outputs[s1].setChannels(channelsone);
+			outputs[out1].setChannels(channelsoneback);
+
+			for (int i = 0; i<channelsone; i++){
+
+				outputs[s1].setVoltage(inputs[in1].getVoltage(i), i);
+
+				if(mix){
+					float mixval = params[mix1].getValue();
+					float mixedout = (mixval * inputs[r1].getVoltage(i) + ((1-mixval) * inputs[in1].getVoltage(i)));
+					outputs[out1].setVoltage(mixedout, i);
+				} else {
+					outputs[out1].setVoltage(inputs[r1].getVoltage(i), i);
+				}
+			
+			}
+
+		} else {
+			outputs[out1].setChannels(channelsone);
+			outputs[s1].setChannels(channelsone);
+			for(int i = 0; i<channelsone; i++){
+				outputs[out1].setVoltage(inputs[in1].getVoltage(i), i);
+				outputs[s1].setVoltage(0.f, i);
+			}
+			
+		}
+
+		if(onTwo){
+			outputs[s2].setChannels(channelstwo);
+			outputs[out2].setChannels(channelstwoback);
+
+			for (int i = 0; i<channelstwo; i++){
+
+				outputs[s2].setVoltage(inputs[in2].getVoltage(i), i);
+
+				if(mix){
+					float mixval = params[mix2].getValue();
+					float mixedout = (mixval * inputs[r2].getVoltage(i) + ((1-mixval) * inputs[in2].getVoltage(i)));
+					outputs[out2].setVoltage(mixedout, i);
+				} else {
+					outputs[out2].setVoltage(inputs[r2].getVoltage(i), i);
+				}
+			
+			}
+			
+		} else {
+			outputs[out2].setChannels(channelstwo);
+			outputs[s2].setChannels(channelstwo);
+			for(int i = 0; i<channelstwo; i++){
+				outputs[out2].setVoltage(inputs[in2].getVoltage(i), i);
+				outputs[s2].setVoltage(0.f, i);
+			}
+			
+		}
+
 	}
 
 	void isLinkedOut(int out, int light){
